@@ -1,0 +1,79 @@
+.studio { background: var(--cream); }
+.studio__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
+.studio__points { margin-top: 26px; display: grid; gap: 14px; }
+.studio__points li { display: flex; align-items: center; gap: 12px; color: var(--ink); font-weight: 500; }
+.studio__dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  box-shadow: 0 0 0 4px rgba(198, 161, 91, .18);
+}
+
+/* Stage */
+.studio__stage { position: relative; display: grid; place-items: center; min-height: 640px; }
+
+/* ✅ إطار الهاتف — أطول قليلاً */
+.studio__phone {
+  position: relative;
+  width: min(320px, 78vw);          /* ← زيادة طفيفة في العرض */
+  aspect-ratio: 9 / 19.5;           /* ← كان 9/18 — الآن أطول (iPhone-like) */
+  border-radius: 46px;              /* ← زيادة border-radius لتتناسب مع الإطالة */
+  overflow: hidden;
+  border: 3px solid var(--navy);
+  background: var(--navy-deep);
+  box-shadow: var(--shadow-2);
+}
+
+/* ✅ notch أعلى الإطار الممدّد */
+.studio__phone::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 26px;
+  background: var(--navy-deep);
+  border-radius: 999px;
+  z-index: 3;
+  border: 1px solid rgba(246, 243, 236, .08);
+}
+
+.studio__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.studio__caption {
+  position: absolute; inset-inline: 0; bottom: 0; padding: 34px 12px 14px;
+  background: linear-gradient(180deg, transparent, rgba(11, 28, 55, .9));
+  color: var(--gold-soft); font-size: .78rem; text-align: center; letter-spacing: .06em;
+}
+
+/* Floating chips — translateY float only (تم تعديل المواقع لاستيعاب الإطالة) */
+.chip {
+  position: absolute; z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 999px;
+  background: var(--white); color: var(--navy);
+  border: 1px solid rgba(20, 41, 75, .1);
+  box-shadow: var(--shadow-1); font-size: .82rem; font-weight: 700;
+  animation: chip-float 5s ease-in-out infinite;
+  transition: transform .3s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+.chip svg { color: var(--gold-deep); }
+.chip:hover { transform: scale(1.08); box-shadow: 0 0 0 2px var(--gold), var(--shadow-1); animation-play-state: paused; }
+
+/* ✅ مواقع محدّثة لتناسب الإطار الأطول */
+.chip--1 { top: 6%;  inset-inline-start: 4%;  animation-delay: 0s; }
+.chip--2 { top: 14%; inset-inline-end: 2%;    animation-delay: .6s; }
+.chip--3 { top: 40%; inset-inline-start: -2%; animation-delay: 1.2s; }
+.chip--4 { top: 58%; inset-inline-end: -3%;   animation-delay: 1.8s; }
+.chip--5 { bottom: 18%; inset-inline-start: 8%;  animation-delay: 2.4s; }
+.chip--6 { bottom: 6%;  inset-inline-end: 10%; animation-delay: 3s; }
+
+@keyframes chip-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@media (max-width: 900px) {
+  .studio__grid { grid-template-columns: 1fr; gap: 40px; }
+  .studio__stage { min-height: 600px; }
+}

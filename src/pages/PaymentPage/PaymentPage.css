@@ -1,0 +1,141 @@
+.paypage { min-height: 100vh; background: var(--cream, #f6f3ec); padding-bottom: 80px; }
+.paypage__grid {
+  display: grid; grid-template-columns: 1.25fr .75fr;
+  gap: 34px; align-items: start;
+  padding-top: 44px;
+}
+.paypage__plans h1 { font-size: 1.7rem; font-weight: 800; color: var(--navy, #14294b); }
+.paypage__sub { margin-top: 8px; color: var(--muted, #5b6472); font-size: .92rem; }
+
+/* فشل سابق */
+.pay-failed {
+  margin-top: 16px; padding: 14px 16px; border-radius: 14px;
+  background: #fdf0f0; border: 1px solid #f2c9c9;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.pay-failed strong { color: #b33636; font-size: .9rem; }
+.pay-failed span { color: #8a4a4a; font-size: .8rem; }
+.pay-failed button {
+  margin-inline-start: auto; padding: 8px 16px; border-radius: 10px;
+  background: #b33636; color: #fff; font-size: .8rem; font-weight: 700;
+}
+
+/* بطاقات الباقات */
+.payplans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 26px; }
+.payplan {
+  position: relative; text-align: start;
+  padding: 24px 20px 20px; border-radius: 20px;
+  background: #fff; border: 1.5px solid rgba(20, 41, 75, .1);
+  display: grid; gap: 12px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.payplan:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11, 28, 55, .12); }
+.payplan.is-active {
+  border-color: var(--gold, #c6a15b);
+  box-shadow: 0 20px 46px rgba(198, 161, 91, .25);
+}
+.payplan.is-popular { background: linear-gradient(180deg, #fffdf8, #fff); }
+.payplan__flag {
+  position: absolute; top: -12px; inset-inline-start: 18px;
+  padding: 5px 12px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .64rem; font-weight: 800;
+  box-shadow: 0 8px 18px rgba(198, 161, 91, .35);
+}
+.payplan__name { font-size: 1rem; font-weight: 800; color: var(--navy, #14294b); }
+.payplan__price { font-size: 1.9rem; font-weight: 800; color: var(--navy, #14294b); }
+.payplan__price i { font-style: normal; font-size: .8rem; color: var(--muted, #5b6472); margin-inline-start: 4px; }
+.payplan__feats { list-style: none; display: grid; gap: 8px; }
+.payplan__feats li {
+  position: relative; padding-inline-start: 22px;
+  color: #444a56; font-size: .8rem; line-height: 1.6;
+}
+.payplan__feats li::before {
+  content: '✓'; position: absolute; inset-inline-start: 0; top: 1px;
+  color: var(--gold-deep, #a9853f); font-weight: 800;
+}
+.payplan__pick {
+  padding: 9px 0; border-radius: 12px; text-align: center;
+  border: 1.5px solid rgba(20, 41, 75, .15);
+  color: var(--navy, #14294b); font-size: .8rem; font-weight: 700;
+  transition: background-color .25s ease, color .25s ease;
+}
+.payplan.is-active .payplan__pick {
+  background: var(--navy, #14294b); color: #e6ce9c; border-color: transparent;
+}
+
+/* ملخص الطلب */
+.paysum {
+  position: sticky; top: 96px;
+  padding: 24px 22px; border-radius: 20px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08);
+  box-shadow: 0 20px 50px rgba(11, 28, 55, .1);
+  display: grid; gap: 12px;
+}
+.paysum__title { font-weight: 800; color: var(--navy, #14294b); font-size: .95rem; }
+.paysum__row { display: flex; justify-content: space-between; font-size: .84rem; color: var(--muted, #5b6472); }
+.paysum__row strong { color: var(--navy, #14294b); }
+.paysum__row--total {
+  padding-top: 12px; border-top: 1px dashed rgba(20, 41, 75, .15);
+  font-size: .95rem;
+}
+.paysum__row--total strong { font-size: 1.2rem; font-weight: 800; }
+.paysum__pay {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 15px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg, #14294b, #0b1c37);
+  color: #e6ce9c; font-size: .95rem; font-weight: 800;
+  box-shadow: 0 16px 34px rgba(11, 28, 55, .3);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.paysum__pay:hover:not(:disabled) { transform: translateY(-2px); }
+.paysum__pay:disabled { opacity: .65; cursor: not-allowed; }
+.paysum__secure { font-size: .72rem; color: var(--muted, #5b6472); line-height: 1.7; text-align: center; }
+.paysum__badges { display: flex; justify-content: center; gap: 8px; }
+.paysum__badges span {
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(20, 41, 75, .06); color: #444a56;
+  font-size: .62rem; font-weight: 800;
+}
+.paysum__mock {
+  padding: 9px 12px; border-radius: 10px;
+  background: rgba(198, 161, 91, .12); border: 1px dashed rgba(198, 161, 91, .5);
+  color: var(--gold-deep, #a9853f); font-size: .72rem; font-weight: 700; text-align: center;
+}
+.paysum__error { color: #b33636; font-size: .8rem; text-align: center; font-weight: 700; }
+
+/* شاشة النجاح */
+.pay-done {
+  min-height: 62vh; display: grid; place-items: center; align-content: center; gap: 12px;
+  text-align: center; padding: 40px 20px;
+}
+.pay-done h1 { font-size: 1.8rem; font-weight: 800; color: var(--navy, #14294b); }
+.pay-done p { color: var(--muted, #5b6472); }
+.pay-done__ring svg { stroke: #22c55e; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pay-done__ring circle { stroke: rgba(34, 197, 94, .25); stroke-width: 2; }
+.pay-done__ring { animation: pay-pop .5s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes pay-pop { from { opacity: 0; transform: scale(.6); } }
+.pay-done__actions { display: flex; gap: 12px; margin-top: 10px; }
+.pay-done__btn {
+  padding: 13px 26px; border-radius: 999px;
+  border: 1.5px solid rgba(20, 41, 75, .2); background: #fff;
+  color: var(--navy, #14294b); font-weight: 700; font-size: .9rem;
+  transition: transform .2s ease;
+}
+.pay-done__btn:hover { transform: translateY(-2px); }
+.pay-done__btn--gold {
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  border-color: transparent; color: #14294b;
+}
+
+@media (max-width: 980px) {
+  .paypage__grid { grid-template-columns: 1fr; }
+  .payplans { grid-template-columns: 1fr; }
+  .paysum { position: static; }
+}
+.pay-done__redirect {
+  margin-top: 14px;
+  font-size: .76rem; color: var(--muted, #5b6472);
+  animation: pay-blink 1.2s ease-in-out infinite;
+}
+@keyframes pay-blink { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }

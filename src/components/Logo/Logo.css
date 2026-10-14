@@ -1,0 +1,9 @@
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--navy); }
+.logo__mark { width: 42px; height: 42px; flex-shrink: 0; }
+.logo__word {
+  font-family: var(--font-display);
+  font-size: 1.55rem; font-weight: 700; letter-spacing: .5px; line-height: 1;
+  color: var(--navy);
+}
+.logo--light { color: var(--cream); }
+.logo--light .logo__word { color: var(--cream); }

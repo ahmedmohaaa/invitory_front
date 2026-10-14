@@ -1,0 +1,251 @@
+.dp {
+  --dp-glass: rgba(255, 255, 255, .55);
+  --dp-glass-brd: rgba(255, 255, 255, .7);
+  
+  /* متغيرات الارتفاعات الجديدة */
+  --dp-navbar-h: 56px;
+  --dp-top-h: 52px;
+  
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 90% -10%, rgba(198, 161, 91, .16), transparent 60%),
+    radial-gradient(700px 420px at 5% 110%, rgba(37, 99, 235, .08), transparent 60%),
+    var(--cream, #f6f3ec);
+}
+
+/* ================================================
+   1. النافبار: ارتفاع ثابت ومحدد
+   ================================================ */
+.dp-navbar,
+.dp > .navbar {
+  height: var(--dp-navbar-h) !important;
+  flex-shrink: 0;
+  z-index: 20;
+  position: relative;
+}
+
+/* ضمان أن النافبار لا يأخذ مساحة زائدة */
+.dp-navbar > *,
+.dp > .navbar > * {
+  max-height: var(--dp-navbar-h);
+}
+
+/* ================================================
+   2. الشريط العلوي: مضغوط ومحدد الارتفاع
+   ================================================ */
+.dp-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: var(--dp-top-h);
+  padding: 0 22px;  /* إزالة padding عمودي لتوفير المساحة */
+  background: var(--dp-glass);
+  border-bottom: 1px solid var(--dp-glass-brd);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.dp-top__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;  /* تصغير padding */
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .65);
+  border: 1px solid rgba(20, 41, 75, .12);
+  color: var(--navy, #14294b);
+  font-size: .82rem;
+  font-weight: 700;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.dp-top__back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(11, 28, 55, .12);
+}
+
+.dp-top__title {
+  flex: 1;
+  text-align: center;
+  color: var(--navy, #14294b);
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+html[lang='en'] .dp-top__title {
+  font-family: var(--font-display, 'Playfair Display', serif);
+}
+
+.dp-top__side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ================================================
+   3. شريحة حالة الحفظ (أكثر إحكاماً)
+   ================================================ */
+.dp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, .65);
+  border: 1px solid rgba(20, 41, 75, .1);
+  color: var(--muted, #5b6472);
+}
+
+.dp-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.dp-chip.is-dirty { color: #b78a2e; }
+.dp-chip.is-saving { color: #2563eb; }
+.dp-chip.is-saving i { animation: dp-pulse 1s ease-in-out infinite; }
+.dp-chip.is-saved { color: #2f9e5f; }
+
+@keyframes dp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+
+.dp-save {
+  padding: 7px 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b) 60%, var(--gold-deep, #a9853f));
+  color: #14294b;
+  font-weight: 800;
+  font-size: .85rem;
+  box-shadow: 0 10px 24px rgba(198, 161, 91, .35);
+  transition: transform .2s ease, box-shadow .2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.dp-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(198, 161, 91, .45);
+}
+
+/* ================================================
+   4. التقسيم الرئيسي: يأخذ المساحة المتبقية بالكامل
+   ================================================ */
+.dp-grid {
+  flex: 1;
+  min-height: 0;  /* مهم جداً للسماح للـ grid بأخذ المساحة المتبقية */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 460px);
+  overflow: hidden;  /* السكرول يحدث داخل كل panel */
+}
+
+/* حدود جانبية بين الفورم والمعاينة */
+.dp-grid > aside:first-child {
+  border-inline-end: 1px solid rgba(20, 41, 75, .08);
+  overflow-y: auto;  /* السماح بالسكرول داخل الفورم */
+}
+
+.dp-grid > aside:last-child {
+  overflow-y: auto;  /* السماح بالسكرول داخل المعاينة */
+}
+
+/* شريط سكرول جميل داخل الـ panels */
+.dp-grid > aside::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dp-grid > aside::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dp-grid > aside::-webkit-scrollbar-thumb {
+  background: rgba(198, 161, 91, .3);
+  border-radius: 10px;
+}
+
+.dp-grid > aside::-webkit-scrollbar-thumb:hover {
+  background: rgba(198, 161, 91, .5);
+}
+
+/* ================================================
+   5. استجابة الموبايل
+   ================================================ */
+@media (max-width: 1020px) {
+  .dp {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  
+  .dp-navbar,
+  .dp > .navbar {
+    height: auto !important;
+    min-height: var(--dp-navbar-h);
+  }
+  
+  .dp-grid {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+  
+  .dp-grid > aside:first-child {
+    border-inline-end: none;
+    border-block-end: 1px solid rgba(20, 41, 75, .08);
+    order: 2;
+    overflow-y: visible;
+  }
+  
+  .dp-grid > aside:last-child {
+    order: 1;
+    padding: 30px 12px;
+    overflow-y: visible;
+  }
+  
+  .pp-device {
+    width: min(260px, 70vw);
+  }
+  
+  .fp {
+    height: auto;
+  }
+  
+  .fp-body {
+    overflow: visible;
+  }
+}
+
+/* ================================================
+   6. شاشات صغيرة جداً (أقل من 640px)
+   ================================================ */
+@media (max-width: 640px) {
+  .dp-top {
+    gap: 8px;
+    padding: 0 12px;
+    height: 48px;
+  }
+  
+  .dp-top__title {
+    font-size: .9rem;
+  }
+  
+  .dp-chip {
+    display: none;  /* إخفاء chip في الشاشات الصغيرة لتوفير المساحة */
+  }
+  
+  .dp-save {
+    padding: 6px 12px;
+    font-size: .8rem;
+  }
+}

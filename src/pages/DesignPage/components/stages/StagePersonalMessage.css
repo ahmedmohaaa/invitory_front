@@ -1,0 +1,71 @@
+/* ===== الخطوة 12 — رسالة شخصية ===== */
+.pm-label { display: block; font-size: .78rem; font-weight: 800; color: var(--navy, #14294b); margin: 14px 0 7px; }
+
+.pm-titlewrap, .pm-bodywrap, .pm-sigwrap { position: relative; }
+
+.pm-input {
+  width: 100%; padding: 12px 56px 12px 14px;
+  border: 1.5px solid rgba(20, 41, 75, .14); border-radius: 14px;
+  background: rgba(255, 255, 255, .7); font-size: .95rem; font-weight: 600;
+  color: var(--ink, #20293a);
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+[dir='rtl'] .pm-input { padding: 12px 14px 12px 56px; }
+.pm-input:focus { outline: none; border-color: var(--gold, #c6a15b); box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); background: #fff; }
+.pm-input--sig {
+  font-family: 'Playfair Display', 'Amiri', serif;
+  font-style: italic; font-weight: 500;
+  color: var(--gold-deep, #a9853f);
+}
+
+.pm-count {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  inset-inline-end: 12px;
+  font-size: .66rem; font-weight: 700; color: var(--muted, #5b6472);
+  background: rgba(20, 41, 75, .06); padding: 3px 8px; border-radius: 999px;
+}
+.pm-count--textarea {
+  top: auto; bottom: 10px; transform: none;
+}
+
+.pm-textarea {
+  width: 100%; padding: 14px 16px 34px; resize: vertical; min-height: 140px;
+  border: 1.5px solid rgba(20, 41, 75, .14); border-radius: 14px;
+  background: rgba(255, 255, 255, .7); font-size: .92rem; line-height: 2;
+  color: var(--ink, #20293a);
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.pm-textarea:focus { outline: none; border-color: var(--gold, #c6a15b); box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); background: #fff; }
+
+.pm-note { margin-top: 14px; font-size: .75rem; color: var(--gold-deep, #a9853f); font-weight: 700; }
+
+/* 👁️ معاينة داخلية — بطاقة زجاجية تحاكي شكل الرسالة في الصفحة 4 */
+.pm-preview {
+  margin-top: 18px; padding: 20px 18px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(198, 161, 91, .18), transparent 65%),
+    linear-gradient(165deg, #16304f, #0b1c37);
+  border: 1px solid rgba(230, 206, 156, .3);
+  display: grid; gap: 10px; justify-items: center; text-align: center;
+  animation: pm-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pm-in { from { opacity: 0; transform: translateY(-8px); } }
+.pm-preview__title {
+  color: var(--gold-soft, #e6ce9c);
+  font-size: 1.05rem; font-weight: 800;
+  letter-spacing: .02em;
+}
+.pm-preview__body {
+  color: rgba(246, 243, 236, .85);
+  font-size: .82rem; line-height: 2;
+  max-width: 90%;
+  font-style: italic;
+}
+.pm-preview__sig {
+  margin-top: 4px;
+  color: var(--gold, #c6a15b);
+  font-family: 'Playfair Display', 'Amiri', serif;
+  font-size: .85rem; font-weight: 600;
+  letter-spacing: .04em;
+}

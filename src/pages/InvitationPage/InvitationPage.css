@@ -1,0 +1,18 @@
+.ipage { min-height: 100vh; background: #eef1f5; display: flex; flex-direction: column; }
+.ipage__top {
+  display: flex; align-items: center; justify-content: center;
+  position: relative; padding: 14px 18px;
+}
+.ipage__back {
+  position: absolute; inset-inline-start: 18px;
+  padding: 8px 14px; border-radius: 999px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .12);
+  color: var(--navy, #14294b); font-size: .78rem; font-weight: 700;
+}
+.ipage__pill {
+  padding: 8px 18px; border-radius: 999px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .1);
+  color: var(--muted, #5b6472); font-size: .8rem; font-weight: 700;
+  box-shadow: 0 6px 16px rgba(11, 28, 55, .08);
+}
+.ipage__body { flex: 1; display: grid; place-items: center; padding: 10px 0 30px; }

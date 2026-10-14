@@ -1,0 +1,86 @@
+/* ===== 🖼️ قسم كشف الصورة بالتمرير (جمالي فقط) ===== */
+.srb {
+  --srb-len: 220vh;   /* طول مسار التمرير داخل القسم */
+  --srb-win: 50vh;    /* نافذة العرض = نصف طول الصورة */
+  position: relative;
+  height: var(--srb-len);
+}
+
+/* الإطار الثابت */
+.srb__pin {
+  position: sticky; top: 0;
+  height: 100vh;
+  display: grid; place-items: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* نافذة العرض */
+.srb__frame {
+  position: relative;
+  width: 100%;
+  height: var(--srb-win);
+  overflow: hidden;
+}
+.srb__frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  box-shadow:
+    inset 0 46px 70px -46px rgba(11, 28, 55, .45),
+    inset 0 -46px 70px -46px rgba(11, 28, 55, .45);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* الصورة المنزلقة */
+.srb__img {
+  position: absolute; inset-inline: 0; top: 0;
+  width: 100%;
+  height: calc(var(--srb-win) * 2);
+  object-fit: cover;
+  object-position: center top;
+  transform: translateY(calc(var(--p, 0) * -50%));
+  will-change: transform;
+}
+
+/* ===== ✍️ الطبقة فوق الصورة: عبارة + زر About ===== */
+.srb__overlay {
+  position: absolute; inset: 0; z-index: 3;
+  display: grid; place-items: center; align-content: center; gap: 20px;
+  text-align: center;
+  background: radial-gradient(62% 62% at 50% 50%, rgba(11, 28, 55, .42), rgba(11, 28, 55, .14) 72%, transparent);
+  pointer-events: none;               /* لا تعيق مشاهدة الكشف */
+}
+.srb__phrase {
+  display: grid; gap: 6px;
+  color: #fff;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 3.4vw, 2.7rem);
+  font-weight: 600; letter-spacing: .02em;
+  text-shadow: 0 4px 26px rgba(11, 28, 55, .6);
+}
+[dir='rtl'] .srb__phrase { font-family: 'Tajawal', system-ui, sans-serif; font-weight: 800; line-height: 1.6; }
+
+.srb__about {
+  pointer-events: auto;               /* الزر وحده قابل للنقر */
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 26px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .65);
+  background: rgba(255, 255, 255, .14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff; font-size: .84rem; font-weight: 700;
+  transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.srb__about:hover {
+  background: rgba(255, 255, 255, .26);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(11, 28, 55, .35);
+}
+[dir='rtl'] .srb__about svg { transform: scaleX(-1); }
+
+/* ===== استجابة ===== */
+@media (max-width: 760px) {
+  .srb { --srb-len: 170vh; --srb-win: 42vh; }
+  .srb__phrase { font-size: 1.35rem; }
+}

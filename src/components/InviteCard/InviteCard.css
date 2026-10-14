@@ -1,0 +1,43 @@
+.invite {
+  width: 240px;
+  background: #FBF8F1;
+  border-radius: 18px;
+  padding: 14px 14px 18px;
+  box-shadow: 0 24px 60px rgba(20, 41, 75, .18);
+  direction: ltr;
+  text-align: center;
+  margin: 0;
+}
+.invite__top {
+  display: flex; justify-content: space-between;
+  font-size: 8px; letter-spacing: .18em; color: #9a8f7c; margin-bottom: 10px;
+}
+.invite__photo {
+  height: 150px;
+  border-radius: 120px 120px 14px 14px;
+  background: radial-gradient(120% 90% at 50% 0%, #bfe3dd 0%, #8fd0c6 45%, #5fb7ac 100%);
+  position: relative; overflow: hidden;
+}
+.invite__photo::after {
+  content: ''; position: absolute; inset-inline: 32%; bottom: 18%;
+  height: 6px; border-radius: 999px; background: rgba(20, 41, 75, .35);
+}
+.invite__body {
+  position: relative;
+  margin: -34px 6px 0;
+  padding: 10px 8px 12px;
+  background: #F6F1E7;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(20, 41, 75, .12);
+}
+.invite__kicker { font-size: 7px; letter-spacing: .22em; color: #b39a6b; margin: 4px 0 4px; }
+.invite__names {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-style: italic; font-size: 20px; color: #23406b; margin-bottom: 6px;
+}
+.invite__line { font-size: 8px; color: #8b8577; line-height: 1.5; margin-bottom: 8px; }
+.invite__meta {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 8px; color: #6f6a5e; margin-top: 4px;
+}
+.invite__dot { width: 5px; height: 5px; background: #d98f8f; border-radius: 1px; }

@@ -1,0 +1,26 @@
+.reviews { background: linear-gradient(180deg, var(--cream-dark), var(--cream)); }
+
+/* CSS-columns masonry */
+.reviews__masonry { columns: 3 300px; column-gap: 26px; }
+
+.review {
+  break-inside: avoid; margin-bottom: 26px;
+  background: var(--white); border-radius: var(--radius);
+  border: 1px solid rgba(20, 41, 75, .07); padding: 26px;
+  box-shadow: var(--shadow-1);
+  animation: review-rise .55s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes review-rise { from { opacity: 0; transform: translateY(18px); } }
+
+.review__stars { display: flex; gap: 3px; color: var(--gold); margin-bottom: 14px; }
+.review__text { color: var(--ink); font-size: .95rem; margin-bottom: 18px; }
+.review__who { display: flex; align-items: center; gap: 12px; }
+.review__avatar {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center; font-weight: 800;
+  background: var(--navy); color: var(--gold-soft);
+}
+.review__who strong { display: block; color: var(--navy); font-size: .92rem; }
+.review__who em { font-style: normal; color: var(--muted); font-size: .78rem; }
+
+.reviews__more { text-align: center; margin-top: 34px; }

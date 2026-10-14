@@ -1,0 +1,93 @@
+/* ============================================================
+   INVITORY — GLOBAL DESIGN SYSTEM
+   Palette extracted from brand logo:
+   Navy #14294B | Gold #C6A15B | Cream #F6F3EC | Ink #20293A
+   ============================================================ */
+:root {
+  --navy: #14294b;
+  --navy-deep: #0b1c37;
+  --navy-soft: #1d3557;
+  --gold: #c6a15b;
+  --gold-soft: #e6ce9c;
+  --gold-deep: #a9853f;
+  --cream: #f6f3ec;
+  --cream-dark: #efeae0;
+  --ink: #20293a;
+  --muted: #5b6472;
+  --white: #ffffff;
+
+  --shadow-1: 0 10px 30px rgba(11, 28, 55, 0.12);
+  --shadow-2: 0 24px 60px rgba(11, 28, 55, 0.18);
+  --radius: 18px;
+
+  --font-ar: 'Tajawal', system-ui, sans-serif;
+  --font-en: 'Montserrat', system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --header-h: 78px;
+}
+
+/* ---------- Reset ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-ar);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+html[lang='en'] body { font-family: var(--font-en); }
+img { max-width: 100%; display: block; }
+button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* ---------- Layout helpers ---------- */
+.container { width: min(1180px, 92%); margin-inline: auto; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- A11y ---------- */
+::selection { background: var(--gold); color: var(--navy-deep); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- Shared buttons (GPU-friendly hover) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  border-radius: 999px; font-weight: 700; padding: .8rem 1.9rem;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, color .25s ease;
+  will-change: transform;
+}
+.btn--gold {
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  color: var(--navy-deep);
+  box-shadow: 0 8px 20px rgba(198, 161, 91, .35);
+}
+.btn--gold:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(198, 161, 91, .45); }
+.btn--ghost { border: 1px solid rgba(20, 41, 75, .28); color: var(--navy); }
+.btn--ghost:hover { background: rgba(20, 41, 75, .06); transform: translateY(-3px); }
+.btn--sm { padding: .5rem 1.2rem; font-size: .85rem; }
+
+/* ---------- Shared section headers ---------- */
+.section { padding: 96px 0; }
+.section-head { text-align: center; max-width: 760px; margin: 0 auto 60px; }
+.section-eyebrow {
+  display: inline-block; color: var(--gold-deep); font-weight: 700;
+  letter-spacing: .35em; font-size: .72rem; text-transform: uppercase; margin-bottom: 14px;
+}
+.section-title { font-size: clamp(1.9rem, 4vw, 3rem); color: var(--navy); font-weight: 800; line-height: 1.3; }
+html[lang='en'] .section-title { font-family: var(--font-display); letter-spacing: .4px; }
+.section-sub { color: var(--muted); margin-top: 14px; font-size: 1.05rem; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

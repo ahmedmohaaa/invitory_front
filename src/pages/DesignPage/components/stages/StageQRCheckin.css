@@ -1,0 +1,124 @@
+/* ===== الخطوة 17 — دخول الضيوف عبر QR ===== */
+.qr-skel { height: 320px; border-radius: 18px; background: rgba(20, 41, 75, .06); animation: qr-pulse 1.2s ease-in-out infinite; }
+@keyframes qr-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+.qr-label { display: block; font-size: .78rem; font-weight: 800; color: var(--navy, #14294b); margin: 14px 0 7px; }
+.qr-hint { font-size: .72rem; color: var(--muted, #5b6472); margin-bottom: 8px; }
+.qr-input {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid rgba(20, 41, 75, .14); border-radius: 14px;
+  background: rgba(255, 255, 255, .7); font-size: .92rem; color: var(--ink, #20293a);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.qr-input:focus { outline: none; border-color: var(--gold, #c6a15b); box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); }
+.qr-input--pin {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem; font-weight: 800; letter-spacing: .3em;
+  text-align: center;
+  color: var(--gold-deep, #a9853f);
+}
+
+.qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.qr-pin-row { display: flex; gap: 10px; align-items: center; }
+.qr-pin-row .qr-input { flex: 1; }
+.qr-regen {
+  padding: 11px 14px; border-radius: 12px;
+  background: rgba(20, 41, 75, .08); color: var(--navy, #14294b);
+  font-size: .72rem; font-weight: 800;
+  transition: background-color .2s ease;
+  white-space: nowrap;
+}
+.qr-regen:hover { background: rgba(20, 41, 75, .14); }
+
+/* صندوق QR */
+.qr-box {
+  margin-top: 18px; padding: 20px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(198, 161, 91, .12), transparent 65%),
+    rgba(255, 255, 255, .8);
+  border: 1.5px solid rgba(198, 161, 91, .3);
+  display: grid; gap: 12px; justify-items: center; text-align: center;
+  animation: qr-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes qr-in { from { opacity: 0; transform: scale(.95); } }
+.qr-box__title { font-size: .88rem; font-weight: 800; color: var(--navy, #14294b); }
+.qr-box canvas.qr-canvas { border-radius: 12px; box-shadow: 0 10px 30px rgba(20, 41, 75, .15); }
+.qr-box__hint { font-size: .7rem; color: var(--muted, #5b6472); max-width: 240px; }
+.qr-box__actions { display: flex; gap: 8px; width: 100%; }
+.qr-box__btn {
+  flex: 1; padding: 10px 12px; border-radius: 12px;
+  background: var(--navy, #14294b); color: #f6f3ec;
+  font-size: .72rem; font-weight: 800;
+  text-decoration: none;
+  transition: transform .2s ease;
+}
+.qr-box__btn:hover { transform: translateY(-2px); }
+.qr-box__btn--link { background: rgba(198, 161, 91, .18); color: var(--gold-deep, #a9853f); }
+
+/* الإحصائيات */
+.qr-stats {
+  margin-top: 18px; padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #16304f, #0b1c37);
+  color: #f6f3ec;
+  animation: qr-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+.qr-stats__title {
+  font-size: .82rem; font-weight: 800;
+  color: var(--gold-soft, #e6ce9c);
+  margin-bottom: 12px;
+}
+.qr-stats__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.qr-stats__cell {
+  padding: 10px; border-radius: 12px;
+  background: rgba(255, 255, 255, .08);
+  display: grid; justify-items: center; gap: 2px;
+}
+.qr-stats__num { font-size: 1.3rem; font-weight: 800; color: var(--gold-soft, #e6ce9c); font-variant-numeric: tabular-nums; }
+.qr-stats__lbl { font-size: .62rem; font-weight: 700; color: rgba(246, 243, 236, .7); }
+.qr-stats__bar {
+  margin-top: 12px; height: 6px; border-radius: 999px;
+  background: rgba(255, 255, 255, .1); overflow: hidden;
+}
+.qr-stats__bar span {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  transition: width .6s ease;
+}
+.qr-stats__recent {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid rgba(246, 243, 236, .15);
+  list-style: none; padding: 0;
+  max-height: 120px; overflow-y: auto;
+  scrollbar-width: thin;
+}
+.qr-stats__recent li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 4px; font-size: .7rem;
+  border-bottom: 1px dashed rgba(246, 243, 236, .08);
+}
+.qr-stats__recent li:last-child { border-bottom: none; }
+.qr-stats__time { font-size: .62rem; color: rgba(246, 243, 236, .6); font-variant-numeric: tabular-nums; }
+.qr-stats__empty { text-align: center; color: rgba(246, 243, 236, .5); font-size: .72rem; padding: 10px 0; }
+
+.qr-message {
+  margin-top: 14px; padding: 10px 14px; border-radius: 12px;
+  font-size: .78rem; font-weight: 700; text-align: center;
+  animation: qr-in .3s ease both;
+}
+.qr-message--success { background: rgba(74, 222, 128, .15); color: #22c55e; border: 1px solid rgba(74, 222, 128, .3); }
+.qr-message--error { background: rgba(248, 113, 113, .15); color: #ef4444; border: 1px solid rgba(248, 113, 113, .3); }
+
+.qr-save {
+  width: 100%; margin-top: 16px; padding: 12px;
+  border-radius: 14px; border: none;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .88rem; font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.qr-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(198, 161, 91, .3); }
+.qr-save:disabled { opacity: .6; cursor: not-allowed; }
+
+@media (max-width: 560px) { .qr-grid { grid-template-columns: 1fr; } }

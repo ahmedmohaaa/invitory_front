@@ -1,0 +1,85 @@
+/* ===== الخطوة 4 — صفحات القالب والتنسيق ===== */
+.pt-sub { font-size: .85rem; font-weight: 800; color: var(--navy, #14294b); margin-bottom: 10px; }
+.pt-sub--gold { color: var(--gold-deep, #a9853f); }
+.pt-label { font-size: .78rem; font-weight: 700; color: var(--muted, #5b6472); margin: 14px 0 8px; }
+
+/* تبويبات الصفحات */
+.pt-pages { display: flex; gap: 10px; margin-bottom: 18px; }
+.pt-page {
+  display: grid; justify-items: center; gap: 6px;
+  padding: 8px; border-radius: 14px;
+  border: 1.5px solid transparent;
+  transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.pt-page:hover { transform: translateY(-2px); background: rgba(255, 255, 255, .6); }
+.pt-page.is-active { border-color: var(--gold, #c6a15b); background: #fff; box-shadow: 0 10px 24px rgba(198, 161, 91, .22); }
+.pt-page__thumb {
+  width: 46px; height: 66px; border-radius: 8px;
+  background: linear-gradient(160deg, #16304f, #0b1c37) center/cover no-repeat;
+  background-color: #16304f;
+  display: grid; place-items: center;
+  border: 1px solid rgba(255, 255, 255, .25);
+  overflow: hidden;
+}
+.pt-page__thumb i { font-style: normal; color: rgba(246, 243, 236, .8); font-size: .8rem; font-weight: 800; }
+.pt-page__label { font-size: .68rem; font-weight: 700; color: var(--muted, #5b6472); }
+
+/* رافع الخلفية */
+.pt-drop {
+  display: grid; justify-items: center; gap: 8px;
+  padding: 26px 16px; border-radius: 16px;
+  border: 1.5px dashed rgba(20, 41, 75, .25);
+  background: rgba(255, 255, 255, .5);
+  color: var(--muted, #5b6472); font-size: .8rem; font-weight: 700;
+  cursor: pointer; transition: border-color .25s ease, background-color .25s ease;
+}
+.pt-drop:hover { border-color: var(--gold, #c6a15b); background: rgba(255, 255, 255, .8); }
+.pt-bg__preview { position: relative; border-radius: 16px; overflow: hidden; }
+.pt-bg__preview img { width: 100%; height: 150px; object-fit: cover; display: block; }
+.pt-bg__actions { position: absolute; inset-inline: 0; bottom: 0; display: flex; gap: 8px; padding: 10px; background: linear-gradient(180deg, transparent, rgba(11, 28, 55, .75)); }
+.pt-btn { padding: 7px 14px; border-radius: 10px; background: rgba(255, 255, 255, .9); color: var(--navy, #14294b); font-size: .72rem; font-weight: 800; transition: transform .2s ease; }
+.pt-btn:hover { transform: translateY(-2px); }
+.pt-btn--danger { background: #fdeaea; color: #d64545; }
+.pt-error { margin-top: 8px; color: #d64545; font-size: .78rem; font-weight: 700; }
+
+/* القسم العام */
+.pt-global { margin-top: 20px; padding-top: 16px; border-top: 1px dashed rgba(20, 41, 75, .15); }
+
+/* الخطوط */
+.pt-fonts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pt-font {
+  display: grid; justify-items: center; gap: 4px;
+  padding: 12px 8px; border-radius: 14px;
+  border: 1.5px solid rgba(20, 41, 75, .12); background: rgba(255, 255, 255, .6);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.pt-font:hover { transform: translateY(-2px); }
+.pt-font.is-selected { border-color: var(--gold, #c6a15b); background: #fff; box-shadow: 0 10px 24px rgba(198, 161, 91, .22); }
+.pt-font__sample { font-size: 1.15rem; color: var(--navy, #14294b); }
+.pt-font__name { font-size: .66rem; font-weight: 700; color: var(--muted, #5b6472); font-family: 'Tajawal', sans-serif; }
+.pt-font-skel { height: 62px; border-radius: 14px; background: rgba(20, 41, 75, .06); animation: pt-pulse 1.2s ease-in-out infinite; }
+@keyframes pt-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+/* الألوان */
+.pt-colors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.pt-color { display: grid; gap: 8px; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, .6); border: 1px solid rgba(20, 41, 75, .1); }
+.pt-color__label { font-size: .7rem; font-weight: 800; color: var(--navy, #14294b); }
+.pt-color__row { display: flex; align-items: center; gap: 8px; }
+.pt-color__row input[type='color'] {
+  width: 38px; height: 32px; padding: 2px; border: 1px solid rgba(20, 41, 75, .2);
+  border-radius: 8px; background: #fff; cursor: pointer;
+}
+.pt-color__row code { font-size: .66rem; color: var(--muted, #5b6472); }
+.pt-swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+.pt-swatch {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .9); box-shadow: 0 2px 6px rgba(11, 28, 55, .2);
+  transition: transform .2s ease;
+}
+.pt-swatch:hover { transform: scale(1.2); }
+.pt-swatch.is-active { outline: 2px solid var(--gold, #c6a15b); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .pt-fonts { grid-template-columns: repeat(2, 1fr); }
+  .pt-colors { grid-template-columns: 1fr; }
+}

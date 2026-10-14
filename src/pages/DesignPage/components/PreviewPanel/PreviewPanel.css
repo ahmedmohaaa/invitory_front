@@ -1,0 +1,955 @@
+.pp {
+  position: relative;
+  display: grid; place-items: center; align-content: center; gap: 22px;
+  height: 100%; min-height: 0;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.pp-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(2px); }
+.pp-orb--1 { width: 340px; height: 340px; background: radial-gradient(circle, rgba(198, 161, 91, .22), transparent 65%); top: -60px; inset-inline-end: -80px; }
+.pp-orb--2 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(37, 99, 235, .14), transparent 65%); bottom: -50px; inset-inline-start: -70px; }
+
+/* جسم الهاتف */
+.pp-device {
+  position: relative; z-index: 1;
+  width: min(320px, 82vw);
+  aspect-ratio: 9 / 19;
+  border-radius: 40px;
+  border: 2px solid #000;
+  background: #000;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, .45);
+  padding: 4px;
+  animation: pp-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes pp-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.pp-notch {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  width: 112px; height: 18px; border-radius: 999px;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, .06);
+  z-index: 3;
+}
+/* الشاشة الزجاجية — عمود: تمرير + نقاط + تاب بار */
+.pp-screen {
+  position: relative;
+  height: 100%; border-radius: 34px; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, .16), transparent 60%),
+    linear-gradient(165deg, #16304f 0%, #0b1c37 70%);
+  display: flex; flex-direction: column;
+  padding: 0;
+}
+
+/* 📜 حاوية تمرير الشاشات الخمس */
+.pp-scroll {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(230, 206, 156, .5) transparent;
+}
+.pp-scroll::-webkit-scrollbar { width: 4px; }
+.pp-scroll::-webkit-scrollbar-track { background: transparent; }
+.pp-scroll::-webkit-scrollbar-thumb { background: rgba(230, 206, 156, .45); border-radius: 999px; }
+
+/* كل شاشة — صفحة متصلة وليست معزولة */
+.pp-page {
+  position: relative;
+  min-height: 100%;
+  padding: 56px 14px 92px;
+  display: grid; align-content: center; justify-items: center; gap: 14px;
+  overflow: hidden;
+}
+
+.pp-screen__center { display: grid; justify-items: center; gap: 14px; color: rgba(230, 206, 156, .8); width: 100%; }
+.pp-live {
+  color: rgba(246, 243, 236, .55); font-size: .85rem; text-align: center; line-height: 1.8;
+  max-width: 220px; transition: color .3s ease;
+}
+.pp-live.is-on { color: var(--gold-soft, #e6ce9c); font-weight: 700; }
+
+.pp-dots {
+  position: absolute; bottom: 74px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 7px; z-index: 6;
+  padding: 5px 10px; border-radius: 999px;
+  background: rgba(11, 28, 55, .35);
+  backdrop-filter: blur(6px);
+}
+.pp-dots span {
+  width: 7px; height: 7px; border-radius: 999px;
+  background: rgba(246, 243, 236, .25);
+  transition: transform .3s ease, background-color .3s ease;
+}
+.pp-dots span.is-active { background: var(--gold, #c6a15b); transform: scale(1.35); }
+
+.pp-caption { display: grid; justify-items: center; gap: 3px; text-align: center; z-index: 1; }
+.pp-caption strong { color: var(--navy, #14294b); font-size: .95rem; font-weight: 800; }
+.pp-caption span { color: var(--muted, #5b6472); font-size: .78rem; }
+.pp-caption em {
+  font-style: normal; margin-top: 6px; padding: 5px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, .6); border: 1px solid rgba(255, 255, 255, .7);
+  backdrop-filter: blur(10px); font-size: .7rem; font-weight: 800; color: var(--gold-deep, #a9853f);
+}
+/* ===== الخطوة 2 — انعكاس لغة الدعوة على الشاشة ===== */
+.pp-screen--ar { font-family: 'Tajawal', system-ui, sans-serif; }
+.pp-screen--en { font-family: 'Playfair Display', 'Montserrat', serif; }
+
+.pp-sample {
+  color: var(--gold-soft, #e6ce9c);
+  font-size: 1.05rem; font-weight: 700;
+  text-align: center; max-width: 220px; line-height: 1.9;
+}
+.pp-screen--en .pp-sample { font-style: italic; letter-spacing: .02em; }
+
+.pp-langchip {
+  margin-top: 10px; padding: 5px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .16);
+  color: rgba(246, 243, 236, .75);
+  font-size: .68rem; font-weight: 800; letter-spacing: .06em;
+}
+
+/* ===== الخطوة 3 — شارة المناسبة الحية ===== */
+.pp-occasion {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 12px; padding: 7px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .16);
+  backdrop-filter: blur(8px);
+  animation: pp-occasion-pop .35s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-occasion-pop { from { opacity: 0; transform: translateY(8px) scale(.9); } }
+.pp-occasion__emoji { font-size: 1.05rem; line-height: 1; }
+.pp-occasion__label { color: rgba(246, 243, 236, .9); font-size: .72rem; font-weight: 800; }
+.pp-occasion__solo {
+  padding: 2px 8px; border-radius: 999px;
+  background: rgba(37, 99, 235, .35); color: #dbeafe;
+  font-size: .58rem; font-weight: 800;
+}
+/* ===== الخطوة 4 — ثيم المستخدم داخل الشاشة ===== */
+.pp-screen { font-family: var(--pv-font, inherit); }
+/* ===== 🎨 طبقة الخلفيات الثابتة — Crossfade بين الشاشات ===== */
+.pp-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.pp-bg-layer::after {
+  /* طبقة تعتيم موحدة فوق كل الخلفيات لضمان قراءة النص */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11, 28, 55, .25), rgba(11, 28, 55, .6));
+  z-index: 1;
+  pointer-events: none;
+}
+.pp-bg-image {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity .8s ease-in-out, transform 1.4s ease-out;
+  will-change: opacity, transform;
+}
+.pp-bg-image.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* رفع المحتوى والموسيقى فوق طبقة الخلفيات */
+.pp-scroll {
+  position: relative;
+  z-index: 1;
+}
+.pp-music {
+  z-index: 5;
+}
+.pp-themed { position: relative; z-index: 1; }
+.pp-t-emoji { font-size: 1.6rem; }
+.pp-t-title { color: var(--pv-title, #14294b); font-size: 1.25rem; font-weight: 800; text-shadow: 0 2px 10px rgba(255,255,255,.25); }
+.pp-t-title--sm { font-size: 1rem; }
+.pp-t-line { width: 46px; height: 3px; border-radius: 2px; background: var(--pv-accent, #c6a15b); }
+.pp-t-body { color: var(--pv-body, #3c4250); font-size: .8rem; line-height: 1.9; text-align: center; }
+.pp-t-accent { color: var(--pv-accent, #c6a15b); font-size: 1rem; }
+.pp-t-accent-sm { color: var(--pv-accent, #c6a15b); font-size: .62rem; letter-spacing: .12em; font-weight: 700; }
+.pp-t-glass {
+  display: grid; justify-items: center; gap: 8px;
+  padding: 16px 14px; border-radius: 16px;
+  background: rgba(255, 255, 255, .55);
+  border: 1px solid rgba(255, 255, 255, .65);
+  backdrop-filter: blur(10px);
+  max-width: 210px;
+}
+.pp-t-program { gap: 6px; }
+.pp-t-row { display: inline-flex; align-items: center; gap: 8px; }
+.pp-t-row i { width: 7px; height: 7px; border-radius: 50%; background: var(--pv-accent, #c6a15b); }
+.pp-t-row em { font-style: normal; }
+.pp-t-msg { display: grid; justify-items: center; gap: 8px; max-width: 210px; }
+
+/* نقاط الصفحات كأزرار */
+.pp-dots button {
+  width: 8px; height: 8px; border-radius: 999px; padding: 0;
+  background: rgba(246, 243, 236, .3);
+  transition: transform .3s ease, background-color .3s ease;
+}
+.pp-dots button.is-active { background: var(--pv-accent, #c6a15b); transform: scale(1.4); }
+.pp-dots button:hover { transform: scale(1.25); }
+
+/* ===== الخطوة 5 — العنوان والتاريخ والشكر ===== */
+.pp-t-date { color: var(--pv-body, #3c4250); font-size: .66rem; font-weight: 700; opacity: .92; }
+.pp-t-hijri { color: var(--pv-accent, #c6a15b); font-size: .62rem; font-weight: 800; }
+.pp-t-thanks { font-size: .7rem; font-weight: 800; line-height: 1.9; }
+
+/* ===== الخطوة 6 — العائلات ونص الدعوة الغني ===== */
+.pp-t-families { color: var(--pv-title, #14294b); font-size: .82rem; font-weight: 800; }
+.pp-t-rich { font-size: .7rem; line-height: 1.9; color: var(--pv-body, #3c4250); max-width: 220px; }
+.pp-t-rich :where(p, div) { margin: 0 0 4px; }
+.pp-t-rich :where(ul, ol) { padding-inline-start: 14px; text-align: start; }
+.pp-t-rich :where(b, strong) { color: var(--pv-title, #14294b); }
+.pp-t-glass--full { gap: 6px; padding: 14px 12px; }
+/* ===== الخطوة 7 — بوكس الموقع داخل المعاينة ===== */
+.pp-t-venue {
+  display: flex; align-items: flex-start; gap: 8px;
+  width: 100%; max-width: 220px;
+  padding: 10px 12px; border-radius: 14px;
+  background: rgba(11, 28, 55, .35);
+  border: 1px solid rgba(230, 206, 156, .35);
+  backdrop-filter: blur(8px);
+  color: var(--gold-soft, #e6ce9c);
+  animation: pp-venue-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-venue-in { from { opacity: 0; transform: translateY(8px); } }
+.pp-t-venue svg { flex-shrink: 0; margin-top: 2px; }
+.pp-t-venue__txt { display: grid; gap: 2px; text-align: start; }
+.pp-t-venue__txt strong { font-size: .72rem; font-weight: 800; color: #f6f3ec; }
+.pp-t-venue__txt span { font-size: .62rem; color: rgba(246, 243, 236, .75); line-height: 1.6; }
+
+/* ===== الخطوة 8 — صفوف برنامج الحفل ===== */
+.pp-t-row { width: 100%; justify-content: flex-start; gap: 6px; }
+.pp-t-ev { font-style: normal; color: var(--pv-body, #3c4250); font-size: .68rem; font-weight: 700; flex: 1; text-align: start; }
+.pp-t-evtime { color: var(--pv-accent, #c6a15b); font-size: .62rem; font-weight: 800; flex-shrink: 0; }
+/* ===== الخطوة 9 — رقائق التفاصيل والنص الحر ===== */
+.pp-t-details {
+  display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;
+  max-width: 230px;
+}
+.pp-t-dchip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 9px; border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(230, 206, 156, .4);
+  color: rgba(246, 243, 236, .9);
+  font-size: .56rem; font-weight: 700;
+  animation: pp-dchip-in .3s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-dchip-in { from { opacity: 0; transform: scale(.8); } }
+.pp-t-dchip i { font-style: normal; font-size: .62rem; }
+.pp-t-dchip--more { background: rgba(198, 161, 91, .3); color: #f6f3ec; }
+.pp-t-custom {
+  max-width: 220px;
+  color: rgba(246, 243, 236, .8);
+  font-size: .6rem; line-height: 1.8; text-align: center;
+}
+
+/* ===== الخطوة 10 — قسم الإقامة داخل المعاينة ===== */
+.pp-t-acc {
+  width: 100%; max-width: 220px;
+  padding: 12px 12px 10px; border-radius: 14px;
+  background: rgba(198, 161, 91, .18);
+  border: 1px solid rgba(230, 206, 156, .45);
+  backdrop-filter: blur(8px);
+  display: grid; gap: 6px;
+  animation: pp-acc-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-acc-in { from { opacity: 0; transform: translateY(8px); } }
+.pp-t-acc__title {
+  display: inline-flex; align-items: center; gap: 6px; justify-content: center;
+  color: var(--gold-soft, #e6ce9c);
+  font-size: .68rem; font-weight: 800; letter-spacing: .06em;
+  padding-bottom: 6px; border-bottom: 1px solid rgba(230, 206, 156, .3);
+}
+.pp-t-acc__hotel {
+  padding: 7px 10px; border-radius: 10px;
+  background: rgba(11, 28, 55, .35);
+  border: 1px solid rgba(246, 243, 236, .12);
+  display: grid; gap: 2px;
+}
+.pp-t-acc__hotel strong { font-size: .68rem; font-weight: 800; color: #f6f3ec; }
+.pp-t-acc__hotel span { font-size: .58rem; color: rgba(246, 243, 236, .75); line-height: 1.6; }
+.pp-t-acc__more {
+  text-align: center; font-size: .62rem; font-weight: 800;
+  color: var(--gold-soft, #e6ce9c);
+}
+.pp-t-acc__extra {
+  font-size: .6rem; line-height: 1.8;
+  color: rgba(246, 243, 236, .8);
+  text-align: center;
+  font-style: italic;
+  padding-top: 4px; border-top: 1px dashed rgba(230, 206, 156, .3);
+}
+
+/* ===== الخطوة 11 — معرض الصور (Slideshow) ===== */
+.pp-t-gallery {
+  width: 100%; aspect-ratio: 4 / 3;   /* ✅ تصغير الطول فقط — العرض كما هو */
+  border-radius: 16px; overflow: hidden;
+  background: linear-gradient(160deg, #16304f, #0b1c37);
+  position: relative;
+}
+.pp-t-slideshow { position: relative; width: 100%; height: 100%; }
+.pp-t-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.pp-t-slide.is-active { opacity: 1; }
+
+.pp-t-gallery__empty {
+  width: 100%; height: 100%;
+  display: grid; place-items: center; gap: 8px;
+  color: rgba(246, 243, 236, .5);
+}
+.pp-t-gallery__empty p { font-size: .72rem; font-weight: 700; }
+
+
+/* ===== الخطوة 12 — الصفحة 4 (رسالة + معرض) ===== */
+.pp-t-page4 {
+  width: 100%; display: grid; gap: 12px;
+  align-content: center;
+}
+
+/* 💌 الرسالة الشخصية فوق المعرض */
+.pp-t-pmsg {
+  display: grid; gap: 8px; justify-items: center; text-align: center;
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(230, 206, 156, .28);
+  backdrop-filter: blur(10px);
+  animation: pp-pmsg-in .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-pmsg-in { from { opacity: 0; transform: translateY(-8px); } }
+.pp-t-pmsg__title {
+  color: var(--gold-soft, #e6ce9c);
+  font-size: .95rem; font-weight: 800;
+  letter-spacing: .03em;
+}
+.pp-t-pmsg__body {
+  color: rgba(246, 243, 236, .88);
+  font-size: .66rem; line-height: 1.9;
+  max-width: 220px;
+  font-style: italic;
+}
+.pp-t-pmsg__sig {
+  margin-top: 2px;
+  color: var(--pv-accent, #c6a15b);
+  font-family: 'Playfair Display', 'Amiri', serif;
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .05em;
+}
+/* ===== الخطوة 13 — الصفحة 5 + جهات الاتصال ===== */
+.pp-t-page5 {
+  width: 100%; display: grid; gap: 12px; justify-items: center; text-align: center;
+  padding: 20px 14px;
+}
+.pp-t-page5__names {
+  color: var(--gold-soft, #e6ce9c);
+  font-size: 1.4rem; font-weight: 800;
+  letter-spacing: .03em;
+}
+.pp-t-page5__date {
+  color: rgba(246, 243, 236, .85);
+  font-size: .72rem; font-weight: 700;
+}
+
+/* 📞 جهات الاتصال */
+.pp-t-contacts {
+  width: 100%; max-width: 230px;
+  display: grid; gap: 10px;
+  margin-top: 8px;
+}
+.pp-t-contact {
+  padding: 10px 12px; border-radius: 12px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(230, 206, 156, .25);
+  backdrop-filter: blur(8px);
+  display: grid; gap: 4px; justify-items: center;
+  animation: pp-contact-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-contact-in { from { opacity: 0; transform: translateY(6px); } }
+.pp-t-contact__name { font-size: .75rem; font-weight: 800; color: #f6f3ec; }
+.pp-t-contact__role { font-size: .62rem; color: rgba(246, 243, 236, .7); }
+.pp-t-contact__actions { display: flex; gap: 8px; margin-top: 4px; }
+.pp-t-contact__phone, .pp-t-contact__whatsapp {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.pp-t-contact__phone { background: rgba(37, 99, 235, .2); color: #60a5fa; }
+.pp-t-contact__phone:hover { transform: scale(1.15); background: rgba(37, 99, 235, .35); }
+.pp-t-contact__whatsapp { background: rgba(37, 211, 102, .2); color: #4ade80; }
+.pp-t-contact__whatsapp:hover { transform: scale(1.15); background: rgba(37, 211, 102, .35); }
+.pp-t-contacts__more {
+  text-align: center; font-size: .62rem; font-weight: 800;
+  color: var(--gold-soft, #e6ce9c);
+}
+
+
+/* ===== الخطوة 14 — مشغّل الموسيقى المصغّر ===== */
+.pp-music {
+  position: absolute; top: 46px; inset-inline: 10px; z-index: 4;
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: 999px;
+  background: rgba(11, 28, 55, .55);
+  border: 1px solid rgba(230, 206, 156, .35);
+  backdrop-filter: blur(10px);
+  animation: pp-music-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-music-in { from { opacity: 0; transform: translateY(-8px); } }
+.pp-music__btn {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .58rem; font-weight: 800;
+  display: grid; place-items: center;
+  transition: transform .2s ease;
+}
+.pp-music__btn:hover { transform: scale(1.12); }
+.pp-music__eq { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+.pp-music__eq span {
+  width: 3px; height: 100%; border-radius: 2px;
+  background: var(--gold-soft, #e6ce9c);
+  transform: scaleY(.3); transform-origin: bottom;
+  transition: transform .3s ease;
+}
+.pp-music__eq.is-on span { animation: pp-eq 1s ease-in-out infinite; }
+.pp-music__eq.is-on span:nth-child(2) { animation-delay: .2s; }
+.pp-music__eq.is-on span:nth-child(3) { animation-delay: .4s; }
+@keyframes pp-eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+.pp-music__title {
+  flex: 1; min-width: 0;
+  color: rgba(246, 243, 236, .9); font-size: .6rem; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pp-music__yt {
+  color: var(--gold-soft, #e6ce9c); font-size: .62rem; font-weight: 800;
+  padding: 2px 6px;
+}
+
+
+
+/* ===== الخطوة 15 — الهدية ===== */
+.pp-t-gift {
+  width: 100%; max-width: 230px;
+  padding: 12px; border-radius: 14px;
+  background: rgba(198, 161, 91, .15);
+  border: 1px solid rgba(230, 206, 156, .4);
+  backdrop-filter: blur(8px);
+  display: grid; gap: 8px;
+  animation: pp-gift-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes pp-gift-in { from { opacity: 0; transform: translateY(8px); } }
+.pp-t-gift__title {
+  display: flex; align-items: center; gap: 6px; justify-content: center;
+  color: var(--gold-soft, #e6ce9c); font-size: .72rem; font-weight: 800;
+  padding-bottom: 6px; border-bottom: 1px solid rgba(230, 206, 156, .3);
+}
+.pp-t-gift__msg { font-size: .6rem; line-height: 1.8; color: rgba(246, 243, 236, .85); text-align: center; }
+.pp-t-gift__bank { display: grid; gap: 4px; justify-items: center; padding: 8px; border-radius: 10px; background: rgba(11, 28, 55, .3); }
+.pp-t-gift__holder { font-size: .62rem; font-weight: 800; color: #f6f3ec; }
+.pp-t-gift__iban { font-size: .58rem; color: rgba(246, 243, 236, .75); font-family: 'Montserrat', monospace; }
+.pp-t-gift__qr { max-width: 100px; border-radius: 6px; margin-top: 4px; }
+.pp-t-gift__wishlist { display: grid; gap: 6px; }
+.pp-t-gift__wish-title { font-size: .62rem; font-weight: 800; color: var(--gold-soft, #e6ce9c); text-align: center; }
+.pp-t-gift__wish-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 8px; border-radius: 8px;
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(230, 206, 156, .25);
+}
+.pp-t-gift__wish-item img { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.pp-t-gift__wish-item span { font-size: .58rem; color: rgba(246, 243, 236, .9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pp-t-gift__wish-more { text-align: center; font-size: .58rem; font-weight: 800; color: var(--gold-soft, #e6ce9c); }
+
+/* ═══════════════════════════════════════════════════════════
+   🧭 التاب البار الثابت أسفل إطار الهاتف (الخطوة 20)
+   ═══════════════════════════════════════════════════════════ */
+.pp-tabbar {
+  position: absolute; inset-inline: 8px; bottom: 8px; z-index: 8;
+  display: grid; grid-template-columns: repeat(6, 1fr); align-items: center;
+  padding: 6px 4px;
+  background: rgba(11, 28, 55, .68);
+  border: 1px solid rgba(230, 206, 156, .35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 22px;
+}
+.pp-tab {
+  display: grid; justify-items: center; gap: 3px;
+  padding: 4px 0;
+  color: rgba(246, 243, 236, .85);
+  font-size: .5rem; font-weight: 700;
+  transition: color .2s ease, transform .2s ease;
+}
+.pp-tab svg { width: 15px; height: 15px; }
+.pp-tab:hover { color: var(--gold-soft, #e6ce9c); transform: translateY(-2px); }
+.pp-tab--cam {
+  justify-self: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b;
+  border: 3px solid rgba(11, 28, 55, .9);
+  box-shadow: 0 6px 18px rgba(198, 161, 91, .45);
+  margin-top: -18px;
+  padding: 0;
+}
+.pp-tab--cam svg { width: 18px; height: 18px; }
+.pp-tab--cam:hover { transform: translateY(-3px) scale(1.05); color: #14294b; }
+
+/* ═══════════════════════════════════════════════════════════
+   🪟 مودالات التاب بار (داخل شاشة الهاتف)
+   ═══════════════════════════════════════════════════════════ */
+.pp-modal {
+  position: absolute; inset: 0; z-index: 20;
+  background: rgba(11, 28, 55, .78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex; flex-direction: column;
+  border-radius: 34px; overflow: hidden;
+  animation: pp-modal-in .3s ease both;
+}
+@keyframes pp-modal-in { from { opacity: 0; } }
+.pp-modal__close {
+  position: absolute; top: 12px; inset-inline-end: 12px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(246, 243, 236, .15); color: #f6f3ec;
+  font-size: .7rem; display: grid; place-items: center;
+  transition: background-color .2s ease;
+}
+.pp-modal__close:hover { background: rgba(246, 243, 236, .3); }
+.pp-modal__body {
+  flex: 1; overflow-y: auto;
+  padding: 42px 14px 16px;
+  display: grid; gap: 10px; align-content: start;
+  scrollbar-width: thin;
+}
+.pp-modal__title { color: var(--gold-soft, #e6ce9c); font-size: .8rem; font-weight: 800; text-align: center; }
+.pp-modal__empty { color: rgba(246, 243, 236, .6); font-size: .68rem; text-align: center; padding: 18px 0; }
+
+/* 🎵 مشغّل المودال */
+.ppm-player {
+  display: grid; gap: 8px; justify-items: center;
+  padding: 14px; border-radius: 14px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(230, 206, 156, .25);
+}
+.ppm-name { color: #f6f3ec; font-size: .72rem; font-weight: 800; }
+.ppm-play {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .8rem; font-weight: 800;
+  display: grid; place-items: center;
+  transition: transform .2s ease;
+}
+.ppm-play:hover { transform: scale(1.1); }
+.ppm-seek { width: 100%; height: 4px; accent-color: #c6a15b; cursor: pointer; }
+.ppm-time { font-size: .58rem; color: rgba(246, 243, 236, .7); font-variant-numeric: tabular-nums; }
+
+/* 📍 زر فتح الموقع */
+.ppm-open {
+  margin-top: 6px; padding: 6px 12px; border-radius: 999px;
+  background: rgba(37, 99, 235, .25); color: #bfdbfe;
+  font-size: .6rem; font-weight: 800;
+  transition: background-color .2s ease;
+}
+.ppm-open:hover { background: rgba(37, 99, 235, .4); }
+
+/* ❤️ نموذج تأكيد الحضور */
+.ppm-form { display: grid; gap: 8px; }
+.ppm-field { display: grid; gap: 4px; }
+.ppm-field span { font-size: .62rem; font-weight: 700; color: rgba(246, 243, 236, .8); }
+.ppm-input {
+  width: 100%; padding: 8px 10px; border-radius: 10px;
+  border: 1px solid rgba(230, 206, 156, .3);
+  background: rgba(255, 255, 255, .1); color: #f6f3ec;
+  font-size: .68rem;
+  transition: border-color .2s ease;
+}
+.ppm-input:focus { outline: none; border-color: var(--gold, #c6a15b); }
+.ppm-input option { color: #14294b; background: #fff; }
+.ppm-submit {
+  padding: 9px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-weight: 800; font-size: .7rem;
+  transition: transform .2s ease;
+}
+.ppm-submit:hover { transform: translateY(-2px); }
+.ppm-success { text-align: center; color: #4ade80; font-size: .7rem; font-weight: 800; padding: 14px 0; }
+
+/* 📷 الكاميرا الحية */
+.ppm-cam { position: relative; border-radius: 14px; overflow: hidden; background: #000; aspect-ratio: 3 / 4; }
+.ppm-cam video { width: 100%; height: 100%; object-fit: cover; }
+.ppm-cam__btn {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; border: 4px solid rgba(255, 255, 255, .4);
+  transition: transform .2s ease;
+}
+.ppm-cam__btn:hover { transform: translateX(-50%) scale(1.08); }
+.ppm-cam__strip { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; }
+.ppm-cam__strip img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.ppm-error { color: #f87171; font-size: .64rem; text-align: center; }
+
+
+/* ===== الخطوة 18 — العدّاد المباشر داخل مودال RSVP ===== */
+.ppm-live {
+  padding: 8px 14px; border-radius: 999px;
+  background: rgba(198, 161, 91, .18);
+  border: 1px solid rgba(230, 206, 156, .4);
+  color: var(--gold-soft, #e6ce9c);
+  font-size: .68rem; font-weight: 800;
+  text-align: center;
+  animation: pp-modal-in .3s ease both;
+}
+
+/* ===== 🎀 غلاف الظرف — بابان متبلران + ختم دائري (إعدادات إضافية) ===== */
+.pp-env {
+  position: absolute; inset: 0; z-index: 15;
+  border-radius: 34px; overflow: hidden;
+}
+.pp-env__door {
+  position: absolute; top: 0; bottom: 0; width: 50.6%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .3), rgba(255, 255, 255, .12)),
+    rgba(246, 243, 236, .5);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  transition: transform 1.15s cubic-bezier(.77, 0, .28, 1);
+  will-change: transform;
+}
+.pp-env__door::after {
+  content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 54px; border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  opacity: .85;
+}
+.pp-env__door--right { right: 0; box-shadow: inset 16px 0 30px rgba(11, 28, 55, .1); }
+.pp-env__door--right::after { left: 12px; }
+.pp-env__door--left { left: 0; box-shadow: inset -16px 0 30px rgba(11, 28, 55, .1); }
+.pp-env__door--left::after { right: 12px; }
+.pp-env.is-open .pp-env__door--right { transform: translateX(101%); }
+.pp-env.is-open .pp-env__door--left { transform: translateX(-101%); }
+
+/* الختم الدائري الأبيض */
+.pp-env__seal {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 134px; height: 134px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(11, 28, 55, .28);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; z-index: 2;
+  transition: opacity .55s ease .2s, transform .55s ease .2s;
+}
+.pp-env.is-open .pp-env__seal {
+  opacity: 0; transform: translate(-50%, -50%) scale(.72);
+  pointer-events: none;
+}
+.pp-env__names {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  max-width: 108px; text-align: center;
+  font-size: .84rem; font-weight: 800; line-height: 1.35;
+  transition: color .3s ease;
+}
+.pp-env__amp { font-size: .68rem; color: #c3c9d4; }
+.pp-env__open {
+  margin-top: 7px; padding: 4px 12px; border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: .56rem; font-weight: 800; letter-spacing: .24em;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.pp-env__open:hover { transform: scale(1.08); background: rgba(255, 255, 255, .6); }
+
+/* زر إعادة الإغلاق */
+.pp-env__reclose {
+  position: absolute; top: 52px; inset-inline-end: 12px; z-index: 3;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(11, 28, 55, .55); color: #f6f3ec;
+  backdrop-filter: blur(8px);
+  display: grid; place-items: center; font-size: .68rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity .4s ease .95s;
+}
+.pp-env.is-open .pp-env__reclose { opacity: 1; pointer-events: auto; }
+
+
+
+
+
+
+
+
+
+
+/* ===== الشاشة 1: أسماء منتصفة + تاريخ/وقت ===== */
+.pp-t-emoji--sm { font-size: 1.1rem; }
+.pp-t-title--xs { font-size: .72rem; font-weight: 700; letter-spacing: .06em; opacity: .85; }
+.pp-t-names {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 1.55rem; font-weight: 800; line-height: 1.5; text-align: center;
+  color: var(--pv-title, #14294b);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, .35);
+}
+.pp-t-names__amp { font-size: .95rem; color: var(--pv-accent, #c6a15b); }
+.pp-t-when { display: flex; gap: 26px; justify-content: center; margin-top: 6px; }
+.pp-t-when__cell { display: grid; justify-items: center; gap: 2px; color: var(--pv-body, #3c4250); }
+.pp-t-when__cell svg { width: 15px; height: 15px; color: var(--pv-accent, #c6a15b); }
+.pp-t-when__top { font-size: .62rem; font-weight: 700; }
+.pp-t-when__val { font-size: .66rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* ===== الشاشة 2: تقويم + احفظ الموعد + عد تنازلي ===== */
+.pp-t-cal {
+  width: 100%; max-width: 190px; border-radius: 16px; overflow: hidden;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 14px 34px rgba(11, 28, 55, .18);
+  animation: pp-venue-in .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+.pp-t-cal__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 12px;
+  background: linear-gradient(135deg, var(--pv-accent, #c6a15b), var(--pv-title, #b33636));
+  color: #fff; font-size: .68rem; font-weight: 800;
+}
+.pp-t-cal__year { font-size: .6rem; opacity: .9; }
+.pp-t-cal__body { display: grid; justify-items: center; gap: 2px; padding: 12px 10px; }
+.pp-t-cal__day { font-size: 2.2rem; font-weight: 800; color: var(--pv-title, #b33636); line-height: 1; }
+.pp-t-cal__week { font-size: .64rem; font-weight: 700; color: var(--pv-body, #3c4250); }
+.pp-t-cal__time { font-size: .62rem; font-weight: 800; color: var(--pv-accent, #c6a15b); }
+.pp-t-savedate {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 999px;
+  background: rgba(255, 255, 255, .85); color: var(--pv-title, #b33636);
+  font-size: .64rem; font-weight: 800;
+  box-shadow: 0 8px 20px rgba(11, 28, 55, .12);
+  transition: transform .2s ease;
+}
+.pp-t-savedate:hover { transform: translateY(-2px); }
+.pp-t-savedate svg { width: 12px; height: 12px; }
+.pp-t-cd {
+  width: 100%; max-width: 210px;
+  padding: 10px 10px 12px; border-radius: 16px;
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 14px 34px rgba(11, 28, 55, .15);
+}
+.pp-t-cd__title { text-align: center; font-size: .66rem; font-weight: 800; color: var(--pv-body, #3c4250); margin-bottom: 8px; }
+.pp-t-cd__row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.pp-t-cd__cell { display: grid; justify-items: center; gap: 2px; }
+.pp-t-cd__cell span { font-size: 1.05rem; font-weight: 800; color: var(--pv-title, #b33636); font-variant-numeric: tabular-nums; }
+.pp-t-cd__cell i { font-style: normal; font-size: .56rem; font-weight: 700; color: var(--pv-body, #3c4250); }
+.pp-t-cd__done { text-align: center; font-size: .7rem; font-weight: 800; color: var(--pv-accent, #c6a15b); }
+
+
+/* ═══════════════════════════════════════════════════════════
+   ↔️ الوضع الأفقي (Horizontal Scroll) — PreviewPanel
+   يُفعَّل عندما يختار المستخدم "أفقي" في الخطوة الأولى
+   ═══════════════════════════════════════════════════════════ */
+
+.pp-horizontal .pp-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pp-horizontal .pp-scroll,
+.pp-scroll--horizontal {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.pp-scroll--horizontal::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.pp-horizontal .pp-scroll > .pp-page,
+.pp-scroll--horizontal > .pp-page {
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 56px 14px 92px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.pp-scroll--horizontal > .pp-page .pp-page__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.pp-scroll--horizontal > .pp-page .pp-screen__center,
+.pp-scroll--horizontal > .pp-page .pp-themed {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: grid;
+  align-content: center;
+}
+
+/* ═══ النقاط الجانبية في الأفقي ═══ */
+.pp-horizontal .pp-dots {
+  bottom: 50%;
+  left: auto;
+  inset-inline-end: 10px;
+  transform: translateY(50%);
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 5px;
+  background: rgba(11, 28, 55, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 999px;
+}
+
+.pp-horizontal .pp-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(246, 243, 236, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  padding: 0;
+}
+
+.pp-horizontal .pp-dots button.is-active {
+  background: var(--pv-accent, #c6a15b);
+  transform: scale(1.5);
+}
+
+.pp-horizontal .pp-dots button:hover {
+  transform: scale(1.3);
+}
+
+/* ═══ التاب بار في الأفقي ═══ */
+.pp-horizontal .pp-tabbar {
+  position: absolute;
+  inset-inline: 8px;
+  bottom: 8px;
+  z-index: 8;
+}
+
+/* ═══ تحسينات الأداء ═══ */
+.pp-scroll--horizontal {
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ═══ دعم اللمس ═══ */
+@media (hover: none) and (pointer: coarse) {
+  .pp-scroll--horizontal {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pp-scroll--horizontal > .pp-page {
+    scroll-snap-align: center;
+  }
+}
+
+/* ═══ مؤشر التمرير الأفقي ═══ */
+.pp-horizontal .pp-screen::after {
+  content: '';
+  position: absolute;
+  bottom: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    var(--pv-accent, #c6a15b) 0%,
+    rgba(198, 161, 91, 0.3) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ═══ الغلاف في الأفقي ═══ */
+.pp-horizontal .pp-env {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+}
+
+.pp-horizontal .pp-music {
+  position: absolute;
+  top: 46px;
+  inset-inline: 10px;
+  z-index: 4;
+}
+
+.pp-horizontal .pp-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══ إخفاء المحتوى عند إغلاق الغلاف ═══ */
+.pp-horizontal .pp-screen.is-sealed .pp-scroll,
+.pp-horizontal .pp-screen.is-sealed .pp-tabbar,
+.pp-horizontal .pp-screen.is-sealed .pp-dots,
+.pp-horizontal .pp-screen.is-sealed .pp-music {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 768px) {
+  .pp-scroll--horizontal > .pp-page {
+    padding: 48px 12px 88px;
+  }
+  .pp-horizontal .pp-dots {
+    inset-inline-end: 8px;
+    padding: 8px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-scroll--horizontal > .pp-page {
+    padding: 44px 10px 84px;
+  }
+  .pp-horizontal .pp-dots {
+    inset-inline-end: 6px;
+    gap: 8px;
+  }
+  .pp-horizontal .pp-dots button {
+    width: 7px;
+    height: 7px;
+  }
+}

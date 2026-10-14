@@ -1,0 +1,41 @@
+/* MockCheckoutPage.css */
+.mck {
+  min-height: 100vh; display: grid; justify-items: center; align-content: start; gap: 18px;
+  background: linear-gradient(180deg, #101114, #1b2430);
+  padding: 40px 18px;
+}
+.mck__head { width: min(440px, 100%); display: flex; justify-content: space-between; align-items: center; }
+.mck__logo { color: #fff; font-weight: 800; font-size: 1.1rem; }
+.mck__logo em { font-style: normal; color: #e6ce9c; font-size: .7rem; border: 1px solid rgba(230, 206, 156, .5); padding: 2px 8px; border-radius: 999px; margin-inline-start: 6px; }
+.mck__ref { color: rgba(255, 255, 255, .5); font-size: .68rem; font-family: monospace; }
+.mck__banner {
+  width: min(440px, 100%);
+  padding: 10px 14px; border-radius: 12px;
+  background: rgba(230, 206, 156, .12); border: 1px dashed rgba(230, 206, 156, .45);
+  color: #e6ce9c; font-size: .74rem; line-height: 1.8; text-align: center;
+}
+.mck__card {
+  width: min(440px, 100%);
+  background: #fff; border-radius: 20px; padding: 26px 22px;
+  display: grid; gap: 14px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
+}
+.mck__amount-label { font-size: .72rem; color: #7a8089; }
+.mck__amount { font-size: 1.8rem; font-weight: 800; color: #101114; }
+.mck__amount span { font-size: .9rem; color: #7a8089; }
+.mck__label { display: grid; gap: 6px; font-size: .76rem; font-weight: 700; color: #333a45; }
+.mck__label input {
+  padding: 12px 14px; border-radius: 12px; border: 1.5px solid rgba(20, 41, 75, .15);
+  font-size: .92rem; background: #fbfaf7;
+}
+.mck__label input:focus { outline: none; border-color: #c6a15b; box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); }
+.mck__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mck__actions { display: grid; gap: 10px; margin-top: 6px; }
+.mck__actions button {
+  padding: 14px; border-radius: 14px; border: none;
+  background: #101114; color: #fff; font-weight: 800; font-size: .92rem;
+  transition: transform .2s ease;
+}
+.mck__actions button:hover:not(:disabled) { transform: translateY(-2px); }
+.mck__actions button:disabled { opacity: .6; cursor: not-allowed; }
+.mck__fail { background: #fdf0f0 !important; color: #b33636 !important; border: 1.5px solid #f2c9c9 !important; }

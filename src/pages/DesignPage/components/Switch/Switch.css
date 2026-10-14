@@ -1,0 +1,24 @@
+/* ===== مفتاح التبديل الموحّد ===== */
+.sw-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 14px 16px; border-radius: 16px;
+  background: rgba(255, 255, 255, .6); border: 1px solid rgba(20, 41, 75, .1);
+  margin-bottom: 16px;
+}
+.sw-row__label { font-size: .88rem; font-weight: 800; color: var(--navy, #14294b); }
+.sw-row__hint { font-size: .72rem; color: var(--muted, #5b6472); margin-top: 3px; }
+
+.sw {
+  position: relative; width: 52px; height: 28px; border-radius: 999px;
+  background: rgba(20, 41, 75, .18); flex-shrink: 0;
+  transition: background-color .3s ease;
+}
+.sw__knob {
+  position: absolute; top: 3px; inset-inline-start: 3px;
+  width: 22px; height: 22px; border-radius: 50%; background: #fff;
+  box-shadow: 0 2px 6px rgba(11, 28, 55, .25);
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+.sw.is-on { background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b)); }
+[dir='rtl'] .sw.is-on .sw__knob { transform: translateX(-24px); }
+[dir='ltr'] .sw.is-on .sw__knob { transform: translateX(24px); }

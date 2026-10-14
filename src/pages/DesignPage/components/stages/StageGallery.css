@@ -1,0 +1,69 @@
+/* ===== الخطوة 11 — معرض الصور ===== */
+.gl-counter {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 999px;
+  background: rgba(255, 255, 255, .65); border: 1px solid rgba(20, 41, 75, .1);
+  font-size: .78rem; font-weight: 700; color: var(--muted, #5b6472);
+  margin-bottom: 14px;
+}
+.gl-counter__num {
+  min-width: 26px; height: 26px; padding: 0 6px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .8rem; font-weight: 800;
+  display: grid; place-items: center;
+  transition: background-color .3s ease, color .3s ease;
+}
+.gl-counter__num.is-max { background: #d64545; color: #fff; }
+
+.gl-drop {
+  display: grid; justify-items: center; gap: 10px;
+  padding: 32px 16px; border-radius: 18px;
+  border: 2px dashed rgba(20, 41, 75, .25);
+  background: rgba(255, 255, 255, .5);
+  color: var(--muted, #5b6472); cursor: pointer;
+  transition: border-color .3s ease, background-color .3s ease, transform .2s ease;
+}
+.gl-drop:hover:not(.is-disabled) { border-color: var(--gold, #c6a15b); background: rgba(255, 255, 255, .8); }
+.gl-drop.is-dragover { border-color: var(--gold, #c6a15b); background: rgba(198, 161, 91, .12); transform: scale(1.02); }
+.gl-drop.is-disabled { opacity: .5; cursor: not-allowed; }
+.gl-drop svg { color: var(--gold-deep, #a9853f); }
+.gl-drop__hint { font-size: .88rem; font-weight: 700; color: var(--navy, #14294b); }
+.gl-drop__sub { font-size: .72rem; color: var(--muted, #5b6472); }
+
+.gl-error { margin-top: 10px; color: #d64545; font-size: .78rem; font-weight: 700; }
+
+.gl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.gl-photo {
+  position: relative; aspect-ratio: 1; border-radius: 14px; overflow: hidden;
+  background: #f0efe9;
+  animation: gl-in .35s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes gl-in { from { opacity: 0; transform: scale(.9); } }
+.gl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gl-photo__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(11, 28, 55, .7));
+  opacity: 0; transition: opacity .25s ease;
+  display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px;
+}
+.gl-photo:hover .gl-photo__overlay { opacity: 1; }
+.gl-photo__del {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #d64545; color: #fff;
+  display: grid; place-items: center;
+  transition: transform .2s ease;
+}
+.gl-photo__del:hover { transform: scale(1.1); }
+.gl-photo__order {
+  position: absolute; top: 8px; inset-inline-start: 8px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(11, 28, 55, .7); color: #fff;
+  font-size: .65rem; font-weight: 800;
+  display: grid; place-items: center;
+}
+
+.gl-empty { text-align: center; color: var(--muted, #5b6472); font-size: .82rem; padding: 20px 0; }
+.gl-note { margin-top: 12px; font-size: .72rem; color: var(--muted, #5b6472); }
+.gl-note--warn { color: #d64545; font-weight: 700; }
+
+@media (max-width: 640px) { .gl-grid { grid-template-columns: repeat(2, 1fr); } }

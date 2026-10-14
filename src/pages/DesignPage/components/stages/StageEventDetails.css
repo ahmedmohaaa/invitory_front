@@ -1,0 +1,65 @@
+/* ===== الخطوة 9 — تفاصيل الحدث ===== */
+.ed-counter {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 999px;
+  background: rgba(255, 255, 255, .65); border: 1px solid rgba(20, 41, 75, .1);
+  font-size: .78rem; font-weight: 700; color: var(--muted, #5b6472);
+  margin-bottom: 14px;
+}
+.ed-counter__num {
+  min-width: 26px; height: 26px; padding: 0 6px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .8rem; font-weight: 800;
+  display: grid; place-items: center;
+  transition: background-color .3s ease, color .3s ease;
+}
+.ed-counter__num.is-max { background: #d64545; color: #fff; }
+
+.ed-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+.ed-chip {
+  position: relative;
+  display: flex; align-items: center; gap: 9px;
+  padding: 11px 12px; border-radius: 14px;
+  border: 1.5px solid rgba(20, 41, 75, .12);
+  background: rgba(255, 255, 255, .6);
+  text-align: start;
+  transition: transform .2s ease, border-color .25s ease, background-color .25s ease, box-shadow .25s ease, opacity .25s ease;
+}
+.ed-chip:hover:not(.is-disabled) { transform: translateY(-2px); }
+.ed-chip.is-on {
+  border-color: var(--gold, #c6a15b);
+  background: linear-gradient(135deg, rgba(230, 206, 156, .18), rgba(255, 255, 255, .9));
+  box-shadow: 0 8px 20px rgba(198, 161, 91, .22);
+}
+.ed-chip.is-disabled { opacity: .42; cursor: not-allowed; }
+
+.ed-chip__emoji { font-size: 1.15rem; line-height: 1; flex-shrink: 0; }
+.ed-chip__label { font-size: .78rem; font-weight: 700; color: var(--navy, #14294b); line-height: 1.5; }
+.ed-chip__check {
+  position: absolute; top: 8px; inset-inline-end: 8px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .6rem; font-weight: 800;
+  display: grid; place-items: center;
+  animation: ed-pop .25s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes ed-pop { from { opacity: 0; transform: scale(.4); } }
+
+.ed-skel { height: 46px; border-radius: 14px; background: rgba(20, 41, 75, .06); animation: ed-pulse 1.2s ease-in-out infinite; }
+@keyframes ed-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+.ed-note { margin-top: 10px; font-size: .72rem; color: var(--muted, #5b6472); }
+.ed-note--warn { color: #d64545; font-weight: 700; }
+
+.ed-label { display: block; font-size: .78rem; font-weight: 800; color: var(--navy, #14294b); margin: 16px 0 8px; }
+.ed-textarea {
+  width: 100%; padding: 12px 14px; resize: vertical; min-height: 84px;
+  border: 1.5px solid rgba(20, 41, 75, .14); border-radius: 14px;
+  background: rgba(255, 255, 255, .7); font-size: .9rem; line-height: 1.9; color: var(--ink, #20293a);
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.ed-textarea:focus { outline: none; border-color: var(--gold, #c6a15b); box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); background: #fff; }
+.ed-count { margin-top: 6px; font-size: .68rem; color: var(--muted, #5b6472); text-align: end; }
+
+@media (max-width: 560px) { .ed-grid { grid-template-columns: 1fr; } }

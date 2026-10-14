@@ -1,0 +1,92 @@
+.connected { background: #FDFDFC; padding: 96px 0 80px; }
+
+.connected__head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+.connected__eyebrow {
+  display: inline-block;
+  color: #e0506e;
+  font-size: .72rem; font-weight: 800;
+  letter-spacing: .3em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.connected__title {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800; line-height: 1.25; color: #15181d;
+}
+html[lang='en'] .connected__title { font-family: var(--font-en, 'Montserrat', sans-serif); letter-spacing: -.02em; }
+.connected__sub { color: #5b6472; margin-top: 16px; }
+
+.connected__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+.ccard { border-radius: 22px; padding: 30px; }
+.ccard--dark { background: #0D0E10; }
+.ccard--blush { background: #F7ECEE; }
+
+.ccard__top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; }
+.ccard__badge {
+  display: inline-block;
+  font-size: .62rem; font-weight: 800; letter-spacing: .14em;
+  border-radius: 999px; padding: 7px 12px;
+}
+.ccard__badge--dark { background: #26272A; color: #cfcfd4; }
+.ccard__badge--pink { background: #fff; color: #e0506e; }
+.ccard__qr {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: #fff; color: #101114;
+  display: grid; place-items: center;
+}
+
+.ccard__title { font-size: 1.5rem; font-weight: 800; color: #15181d; margin-bottom: 12px; }
+.ccard__title--light { color: #fff; }
+.ccard__sub { font-size: .88rem; line-height: 1.7; color: #5b6472; max-width: 400px; }
+.ccard__sub--light { color: #9aa0a8; }
+
+/* شبكة صور البطاقة الداكنة (مع فراغ أسفل اليمين كما في التصميم) */
+.ccard__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 56px;
+  gap: 10px;
+  margin-top: 26px;
+}
+.ctile { border-radius: 10px; display: block; }
+.ctile--1 { grid-row: span 2; background: linear-gradient(160deg, #f6e3cb, #dcb98d); }
+.ctile--2 { grid-row: span 2; background: linear-gradient(160deg, #cdeee8, #79c9c0); }
+.ctile--3 { grid-row: span 2; background: linear-gradient(160deg, #f6d5d0, #e8a79c); }
+.ctile--4 { grid-row: span 3; background: linear-gradient(160deg, #bfe9e4, #5fb7ac); }
+.ctile--5 { grid-row: span 3; background: linear-gradient(160deg, #faf6ee, #d9ccb2); }
+.ctile--6 { grid-row: span 2; background: linear-gradient(160deg, #f6c9a8, #e2926f); }
+
+/* مسرح البطاقة الوردية */
+.ccard__stage { position: relative; display: grid; place-items: center; padding: 30px 0 12px; }
+.ccard__invite { transform: rotate(-4deg) scale(.94); }
+
+.ccard__rsvp {
+  position: absolute;
+  inset-inline-end: 6%;
+  bottom: 4%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 14px 34px rgba(20, 41, 75, .16);
+  display: grid; gap: 6px;
+}
+.ccard__rsvp-title { font-size: .58rem; letter-spacing: .16em; color: #8a8577; font-weight: 800; }
+.ccard__rsvp-row { display: flex; gap: 6px; }
+.ccard__chip { font-style: normal; font-size: .62rem; font-weight: 800; border-radius: 999px; padding: 4px 10px; }
+.ccard__chip--yes { background: #EAF7EE; color: #2f9e5f; }
+.ccard__chip--no { background: #FDECEF; color: #e0506e; }
+
+.connected__pill {
+  width: max-content; max-width: 90%;
+  margin: 40px auto 0;
+  background: #fff;
+  border: 1px solid rgba(20, 41, 75, .12);
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-size: .8rem; color: #555b66;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .connected__grid { grid-template-columns: 1fr; }
+}

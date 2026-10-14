@@ -1,0 +1,227 @@
+/* ===== صفحة إنشاء الحساب — Invitory ===== */
+.signup-page {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  background: var(--cream, #f6f3ec);
+  overflow: hidden;
+}
+
+/* ---------- القسم الأيمن (البراند) ---------- */
+.signup-brand {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 72px 48px;
+  background:
+    radial-gradient(900px 480px at 85% -10%, rgba(198, 161, 91, .22), transparent 60%),
+    radial-gradient(700px 420px at 10% 110%, rgba(198, 161, 91, .14), transparent 60%),
+    linear-gradient(160deg, #16304f 0%, var(--navy, #14294b) 45%, #0b1c37 100%);
+  color: var(--cream, #f6f3ec);
+  overflow: hidden;
+}
+.signup-brand__inner {
+  position: relative; z-index: 2;
+  max-width: 540px;
+  display: grid; gap: 30px; justify-items: center; text-align: center;
+  animation: signup-fade-up .8s cubic-bezier(.2, .8, .2, 1) both;
+}
+.signup-brand .brand__word { color: var(--cream, #f6f3ec); }
+.signup-brand .brand__tag { color: rgba(246, 243, 236, .75); }
+.signup-brand__text { color: rgba(246, 243, 236, .88); font-size: 1.06rem; line-height: 2.15; }
+.signup-brand__chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.signup-brand__chips li {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border: 1px solid rgba(198, 161, 91, .4); border-radius: 999px;
+  font-size: .8rem; color: var(--gold-soft, #e6ce9c); background: rgba(198, 161, 91, .08);
+}
+.signup-brand__chips li::before { content: '✦'; color: var(--gold, #c6a15b); }
+
+.signup-orb { position: absolute; border-radius: 50%; border: 1px solid rgba(230, 206, 156, .25); pointer-events: none; }
+.signup-orb--1 { width: 420px; height: 420px; top: -140px; inset-inline-end: -120px; animation: signup-float 9s ease-in-out infinite; }
+.signup-orb--2 { width: 300px; height: 300px; bottom: -110px; inset-inline-start: -90px; border-color: rgba(230, 206, 156, .16); animation: signup-float 11s ease-in-out infinite reverse; }
+.signup-particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: rgba(230, 206, 156, .55); pointer-events: none; animation: signup-float 7s ease-in-out infinite; }
+.signup-particle--1 { top: 22%; inset-inline-start: 14%; }
+.signup-particle--2 { top: 64%; inset-inline-start: 22%; animation-delay: 1.2s; }
+.signup-particle--3 { top: 34%; inset-inline-end: 18%; animation-delay: 2.1s; }
+.signup-particle--4 { top: 76%; inset-inline-end: 26%; animation-delay: 3s; }
+
+/* ---------- القسم الأيسر (الفورم) ---------- */
+.signup-form-side { position: relative; display: grid; place-items: center; padding: 72px 24px; }
+.signup-form-side::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(600px 300px at 50% 0%, rgba(198, 161, 91, .10), transparent 65%);
+  pointer-events: none;
+}
+
+.signup-card {
+  position: relative; z-index: 1;
+  width: min(460px, 100%);
+  background: #fff;
+  border: 1px solid rgba(20, 41, 75, .08);
+  border-radius: 24px;
+  padding: 36px 34px;
+  box-shadow: 0 30px 80px rgba(11, 28, 55, .14);
+  animation: signup-fade-up .8s .1s cubic-bezier(.2, .8, .2, 1) both;
+}
+.signup-card.is-shaking { animation: signup-shake .5s ease; }
+
+.signup-card__title { font-size: 1.7rem; font-weight: 800; color: var(--navy, #14294b); margin-bottom: 6px; }
+html[lang='en'] .signup-card__title { font-family: var(--font-display, 'Playfair Display', serif); }
+.signup-card__sub { color: var(--muted, #5b6472); font-size: .92rem; margin-bottom: 22px; }
+.signup-card__sub strong { color: var(--navy, #14294b); }
+
+.signup-error {
+  background: #fdf0f0; border: 1px solid #f2c9c9; color: #b33636;
+  font-size: .85rem; border-radius: 12px; padding: 10px 14px; margin-bottom: 16px;
+}
+
+.signup-field { display: block; margin-bottom: 16px; }
+.signup-field__label { display: block; font-size: .85rem; font-weight: 700; color: #33405a; margin-bottom: 8px; }
+.signup-field__wrap { position: relative; display: flex; align-items: center; }
+.signup-field__wrap > svg:first-child { position: absolute; inset-inline-start: 14px; color: #9aa3b2; pointer-events: none; }
+.signup-field input {
+  width: 100%;
+  padding: 12px 44px;
+  border: 1.5px solid rgba(20, 41, 75, .14);
+  border-radius: 14px;
+  font-size: .95rem;
+  color: var(--ink, #20293a);
+  background: #fbfaf7;
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.signup-field input:focus {
+  outline: none; border-color: var(--gold, #c6a15b); background: #fff;
+  box-shadow: 0 0 0 4px rgba(198, 161, 91, .15);
+}
+.signup-eye { position: absolute; inset-inline-end: 12px; color: #9aa3b2; padding: 4px; border-radius: 8px; transition: color .2s ease; }
+.signup-eye:hover { color: var(--navy, #14294b); }
+
+/* مقياس قوة كلمة المرور */
+.signup-strength { display: flex; gap: 6px; margin: -8px 0 8px; }
+.signup-strength span { height: 4px; flex: 1; border-radius: 2px; background: #e6e8ee; transition: background-color .3s ease; }
+.signup-strength.s1 span:nth-child(1) { background: #e05252; }
+.signup-strength.s2 span:nth-child(-n+2) { background: #e6a23c; }
+.signup-strength.s3 span:nth-child(-n+3) { background: #8fbf4d; }
+.signup-strength.s4 span { background: #2f9e5f; }
+.signup-strength-label { font-size: .72rem; color: var(--muted, #5b6472); margin: -4px 0 12px; }
+
+/* checkbox الشروط */
+.signup-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: .85rem; color: #4a5568; user-select: none; margin-bottom: 18px; }
+.signup-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.signup-check__box {
+  width: 18px; height: 18px; border-radius: 6px;
+  border: 1.5px solid rgba(20, 41, 75, .25); background: #fff;
+  display: inline-grid; place-items: center;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.signup-check__box::after {
+  content: ''; width: 9px; height: 5px; margin-top: -2px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) scale(0); transition: transform .2s ease;
+}
+.signup-check input:checked + .signup-check__box { background: var(--gold, #c6a15b); border-color: var(--gold, #c6a15b); }
+.signup-check input:checked + .signup-check__box::after { transform: rotate(-45deg) scale(1); }
+
+/* زر الإنشاء الذهبي */
+.signup-btn {
+  position: relative; width: 100%; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 13px 20px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b) 60%, var(--gold-deep, #a9853f));
+  color: #14294b; font-weight: 800; font-size: 1rem;
+  box-shadow: 0 14px 30px rgba(198, 161, 91, .35);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.signup-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(198, 161, 91, .45); }
+.signup-btn:disabled { opacity: .7; cursor: not-allowed; }
+.signup-btn__sheen {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%);
+  transform: translateX(-120%); transition: transform .7s ease;
+}
+.signup-btn:hover .signup-btn__sheen { transform: translateX(120%); }
+.signup-spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid rgba(20, 41, 75, .25); border-top-color: #14294b;
+  animation: signup-spin .8s linear infinite;
+}
+
+/* فاصل "أو" */
+.signup-divider { position: relative; margin: 20px 0; }
+.signup-divider::before { content: ''; position: absolute; inset-inline: 0; top: 50%; height: 1px; background: rgba(20, 41, 75, .12); }
+.signup-divider span {
+  position: relative; display: block; width: max-content; margin: 0 auto;
+  background: #fff; padding: 0 14px; color: var(--muted, #5b6472); font-size: .8rem;
+}
+
+/* زر جوجل الأبيض */
+.signup-google {
+  width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: #fff;
+  border: 1.5px solid rgba(20, 41, 75, .14);
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 700; font-size: .95rem; color: #33405a;
+  box-shadow: 0 8px 20px rgba(11, 28, 55, .08);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.signup-google:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(11, 28, 55, .14); border-color: rgba(20, 41, 75, .28); }
+
+.signup-foot { margin-top: 20px; text-align: center; font-size: .85rem; color: var(--muted, #5b6472); }
+.signup-foot a { color: var(--gold-deep, #a9853f); font-weight: 700; }
+.signup-foot a:hover { text-decoration: underline; }
+.signup-back { color: var(--gold-deep, #a9853f); font-weight: 700; font-size: .85rem; }
+.signup-back:hover { text-decoration: underline; }
+
+/* خانات كود OTP */
+.signup-otp { display: flex; gap: 10px; justify-content: center; direction: ltr; margin: 22px 0; }
+.signup-otp input {
+  width: 46px; height: 54px;
+  text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--navy, #14294b);
+  border: 1.5px solid rgba(20, 41, 75, .15); border-radius: 12px; background: #fbfaf7;
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.signup-otp input:focus {
+  outline: none; border-color: var(--gold, #c6a15b); background: #fff;
+  box-shadow: 0 0 0 4px rgba(198, 161, 91, .15);
+}
+
+.signup-resend { text-align: center; font-size: .82rem; color: var(--muted, #5b6472); margin-top: 14px; }
+.signup-resend__btn { color: var(--gold-deep, #a9853f); font-weight: 700; }
+.signup-resend__btn:hover { text-decoration: underline; }
+
+/* أزرار عائمة */
+.signup-lang, .signup-home {
+  position: fixed; top: 22px; z-index: 5;
+  padding: 9px 16px; border-radius: 999px;
+  background: rgba(255, 255, 255, .85); backdrop-filter: blur(8px);
+  border: 1px solid rgba(20, 41, 75, .12);
+  color: var(--navy, #14294b); font-size: .82rem; font-weight: 700;
+  box-shadow: 0 8px 20px rgba(11, 28, 55, .10);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.signup-lang { inset-inline-end: 22px; }
+.signup-home { inset-inline-start: 22px; }
+.signup-lang:hover, .signup-home:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(11, 28, 55, .16); }
+
+/* Keyframes */
+@keyframes signup-fade-up { from { opacity: 0; transform: translateY(22px); } }
+@keyframes signup-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes signup-spin { to { transform: rotate(360deg); } }
+@keyframes signup-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); } 40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); } 80% { transform: translateX(5px); }
+}
+
+/* استجابة */
+@media (max-width: 900px) {
+  .signup-page { grid-template-columns: 1fr; }
+  .signup-brand { padding: 84px 24px 48px; }
+  .signup-brand__text { font-size: .98rem; }
+  .signup-form-side { padding: 40px 20px 72px; }
+  .signup-otp input { width: 42px; height: 50px; }
+}

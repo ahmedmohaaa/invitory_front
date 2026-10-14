@@ -1,0 +1,212 @@
+/* ═══════════════════════════════════════════════════════════
+   📖 صفحة الدليل — تصميم فاخر
+   ═══════════════════════════════════════════════════════════ */
+.tu {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(1000px 460px at 90% -10%, rgba(198, 161, 91, .13), transparent 60%),
+    radial-gradient(800px 400px at 5% 30%, rgba(20, 41, 75, .06), transparent 60%),
+    var(--cream, #f6f3ec);
+  overflow-x: hidden;
+}
+.tu__orb { position: fixed; border-radius: 50%; pointer-events: none; filter: blur(70px); opacity: .45; z-index: 0; }
+.tu__orb--1 { width: 380px; height: 380px; top: -100px; inset-inline-end: -80px; background: radial-gradient(circle, rgba(198,161,91,.35), transparent 70%); animation: tu-drift 16s ease-in-out infinite; }
+.tu__orb--2 { width: 300px; height: 300px; bottom: -60px; inset-inline-start: -100px; background: radial-gradient(circle, rgba(20,41,75,.16), transparent 70%); animation: tu-drift 20s ease-in-out infinite reverse; }
+@keyframes tu-drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(26px,-36px); } }
+
+/* الترويسة */
+.tu__hero { position: relative; z-index: 1; text-align: center; padding: 60px 20px 8px; }
+.tu__eyebrow { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .3em; color: var(--gold-deep, #a9853f); animation: tu-up .8s ease both; }
+.tu__title {
+  margin: 12px 0 10px;
+  font-size: clamp(2rem, 4.6vw, 3.2rem); font-weight: 800;
+  background: linear-gradient(120deg, #14294b 25%, #c6a15b 55%, #14294b 85%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: tu-up .8s ease .1s both, tu-shine 7s linear infinite;
+}
+@keyframes tu-shine { to { background-position: 200% center; } }
+@keyframes tu-up { from { opacity: 0; transform: translateY(22px); } }
+.tu__sub { max-width: 640px; margin: 0 auto; color: var(--muted, #5b6472); line-height: 1.9; animation: tu-up .8s ease .2s both; }
+
+.tu__search {
+  display: flex; align-items: center; gap: 10px;
+  width: min(460px, 92vw); margin: 24px auto 0;
+  padding: 12px 18px; border-radius: 999px;
+  background: #fff; border: 1.5px solid rgba(20, 41, 75, .12);
+  box-shadow: 0 10px 30px rgba(11, 28, 55, .08);
+  transition: border-color .25s ease, box-shadow .25s ease;
+  animation: tu-up .8s ease .3s both;
+}
+.tu__search:focus-within { border-color: var(--gold, #c6a15b); box-shadow: 0 0 0 5px rgba(198, 161, 91, .15); }
+.tu__search svg { color: #9aa3b2; flex-shrink: 0; }
+.tu__search input { flex: 1; border: none; outline: none; background: transparent; font-size: .92rem; color: var(--ink, #20293a); }
+
+/* شريط التقدم */
+.tu__progress {
+  width: min(460px, 92vw); margin: 18px auto 0;
+  padding: 14px 18px; border-radius: 18px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08);
+  box-shadow: 0 10px 26px rgba(11, 28, 55, .07);
+  display: grid; gap: 8px; text-align: start;
+  animation: tu-up .8s ease .4s both;
+}
+.tu__progress-head { display: flex; justify-content: space-between; font-size: .78rem; font-weight: 700; color: var(--navy, #14294b); }
+.tu__progress-pct { color: var(--gold-deep, #a9853f); font-weight: 800; }
+.tu__progress-bar { height: 8px; border-radius: 999px; background: rgba(20, 41, 75, .08); overflow: hidden; }
+.tu__progress-bar span {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  transition: width .6s cubic-bezier(.2,.7,.2,1);
+}
+.tu__progress-reset { justify-self: end; font-size: .7rem; color: var(--muted, #5b6472); text-decoration: underline; }
+
+/* ═══ التخطيط ═══ */
+.tu__layout { position: relative; z-index: 1; display: grid; grid-template-columns: 220px 1fr; gap: 34px; padding: 40px 20px 60px; }
+.tu__side { position: sticky; top: 96px; align-self: start; display: grid; gap: 6px; }
+.tu__side-link {
+  text-align: start; padding: 11px 16px; border-radius: 12px;
+  color: var(--muted, #5b6472); font-size: .85rem; font-weight: 700;
+  border-inline-start: 3px solid transparent;
+  transition: all .25s ease;
+}
+.tu__side-link:hover { background: rgba(198, 161, 91, .1); color: var(--navy, #14294b); }
+.tu__side-link.is-active {
+  background: #fff; color: var(--navy, #14294b);
+  border-inline-start-color: var(--gold, #c6a15b);
+  box-shadow: 0 8px 22px rgba(11, 28, 55, .08);
+}
+
+.tu__section { scroll-margin-top: 100px; margin-bottom: 46px; }
+.tu__empty { text-align: center; color: var(--muted, #5b6472); padding: 30px 0; }
+
+/* ═══ بطاقات الانطلاق ═══ */
+.tu__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tu-card {
+  position: relative;
+  padding: 26px 22px; border-radius: 22px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08);
+  box-shadow: 0 14px 36px rgba(11, 28, 55, .07);
+  display: grid; gap: 10px; justify-items: start;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.tu-card:hover { transform: translateY(-6px); box-shadow: 0 22px 48px rgba(11, 28, 55, .12); }
+.tu-card__num {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #14294b, #0b1c37);
+  color: #e6ce9c; font-weight: 800;
+}
+.tu-card h3 { color: var(--navy, #14294b); font-size: 1.05rem; font-weight: 800; }
+.tu-card p { color: var(--muted, #5b6472); font-size: .85rem; line-height: 1.8; }
+.tu-card__btn {
+  margin-top: 4px; padding: 10px 20px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .8rem; font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.tu-card__btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(198, 161, 91, .4); }
+
+/* ═══ الأطوار والخطوات ═══ */
+.tu-phase { margin-bottom: 26px; }
+.tu-phase__title { color: var(--navy, #14294b); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+.tu-phase__steps { display: grid; gap: 10px; border-inline-start: 2px solid rgba(198, 161, 91, .35); padding-inline-start: 18px; }
+.tu-step {
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08); border-radius: 16px;
+  overflow: hidden; transition: box-shadow .25s ease, border-color .25s ease;
+}
+.tu-step.is-open { border-color: rgba(198, 161, 91, .45); box-shadow: 0 14px 34px rgba(11, 28, 55, .1); }
+.tu-step.is-read .tu-step__n { background: #2f9e5f; color: #fff; }
+.tu-step__head {
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; text-align: start;
+}
+.tu-step__n {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: rgba(198, 161, 91, .15); color: var(--gold-deep, #a9853f);
+  font-size: .8rem; font-weight: 800;
+  transition: background-color .3s ease, color .3s ease;
+}
+.tu-step__t { flex: 1; color: var(--navy, #14294b); font-size: .92rem; font-weight: 700; }
+.tu-step__chev { color: var(--muted, #5b6472); transition: transform .3s ease; }
+.tu-step.is-open .tu-step__chev { transform: rotate(180deg); }
+.tu-step__body { padding: 0 16px 16px 58px; display: grid; gap: 10px; }
+.tu-step__body p { color: var(--muted, #5b6472); font-size: .86rem; line-height: 1.85; }
+.tu-step__tip { background: rgba(198, 161, 91, .1); border-radius: 12px; padding: 10px 14px; color: var(--gold-deep, #a9853f) !important; font-weight: 600; }
+.tu-step__read {
+  justify-self: start; padding: 8px 18px; border-radius: 999px;
+  border: 1.5px solid rgba(20, 41, 75, .15); background: #fff;
+  color: var(--navy, #14294b); font-size: .76rem; font-weight: 700;
+  transition: all .25s ease;
+}
+.tu-step__read:hover { border-color: var(--gold, #c6a15b); }
+.tu-step__read.is-done { background: #2f9e5f; border-color: transparent; color: #fff; }
+
+/* ═══ بطاقات مصغرة ═══ */
+.tu__grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.tu-mini {
+  padding: 22px; border-radius: 20px;
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08);
+  box-shadow: 0 12px 30px rgba(11, 28, 55, .06);
+  display: grid; gap: 8px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.tu-mini:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(11, 28, 55, .11); }
+.tu-mini h4 { color: var(--navy, #14294b); font-size: .98rem; font-weight: 800; }
+.tu-mini p { color: var(--muted, #5b6472); font-size: .84rem; line-height: 1.8; }
+.tu-mini--navy { background: linear-gradient(150deg, #14294b, #0b1c37); border-color: transparent; }
+.tu-mini--navy h4 { color: #e6ce9c; }
+.tu-mini--navy p { color: rgba(246, 243, 236, .8); }
+
+/* ═══ الأسئلة الشائعة ═══ */
+.tu-faq {
+  background: #fff; border: 1px solid rgba(20, 41, 75, .08); border-radius: 16px;
+  margin-bottom: 10px; overflow: hidden;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.tu-faq.is-open { border-color: rgba(198, 161, 91, .45); box-shadow: 0 12px 30px rgba(11, 28, 55, .09); }
+.tu-faq__q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 18px; text-align: start;
+  color: var(--navy, #14294b); font-size: .92rem; font-weight: 700;
+}
+.tu-faq__q svg { color: var(--gold-deep, #a9853f); transition: transform .3s ease; flex-shrink: 0; }
+.tu-faq.is-open .tu-faq__q svg { transform: rotate(45deg); }
+.tu-faq__a { padding: 0 18px 18px; color: var(--muted, #5b6472); font-size: .86rem; line-height: 1.9; }
+
+/* ═══ CTA ═══ */
+.tu__cta { position: relative; z-index: 1; padding: 20px 20px 80px; }
+.tu__cta-box {
+  text-align: center; padding: 54px 26px; border-radius: 30px;
+  background:
+    radial-gradient(600px 200px at 50% 0%, rgba(198, 161, 91, .25), transparent 70%),
+    linear-gradient(150deg, #14294b, #0b1c37);
+  box-shadow: 0 30px 80px rgba(11, 28, 55, .35);
+  display: grid; gap: 12px; justify-items: center;
+}
+.tu__cta-box h2 { color: #f6f3ec; font-size: clamp(1.5rem, 3.4vw, 2.2rem); font-weight: 800; }
+.tu__cta-box p { color: rgba(246, 243, 236, .75); font-size: .92rem; }
+.tu__cta-btn {
+  margin-top: 8px; padding: 14px 34px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b; font-size: .95rem; font-weight: 800;
+  box-shadow: 0 16px 36px rgba(198, 161, 91, .4);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.tu__cta-btn:hover { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(198, 161, 91, .5); }
+
+/* ═══ الكشف عند التمرير ═══ */
+.tu-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.tu-reveal.is-visible { opacity: 1; transform: none; }
+
+/* ═══ استجابة ═══ */
+@media (max-width: 980px) {
+  .tu__layout { grid-template-columns: 1fr; }
+  .tu__side { position: static; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tu__side-link { border-inline-start: none; border: 1.5px solid rgba(20, 41, 75, .12); border-radius: 999px; padding: 8px 16px; }
+  .tu__cards { grid-template-columns: 1fr; }
+  .tu__grid2 { grid-template-columns: 1fr; }
+  .tu-step__body { padding-inline-start: 16px; }
+}

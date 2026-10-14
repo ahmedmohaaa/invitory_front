@@ -1,0 +1,40 @@
+.brand { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.brand__mark { width: 150px; height: auto; display: block; }
+
+.brand__word {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--navy, #14294b);
+  direction: ltr;               /* الوورد مارك لاتيني دائماً */
+  letter-spacing: .01em;
+}
+.brand__i { position: relative; display: inline-block; }
+.brand__i::after {              /* النقطة الذهبية فوق الـ i */
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: .08em;
+  width: .16em; height: .16em;
+  border-radius: 50%;
+  background: var(--gold, #c6a15b);
+}
+
+.brand__tag {
+  display: inline-flex; align-items: center; gap: 14px;
+  color: var(--navy, #14294b);
+  font-size: 12px; letter-spacing: .32em;
+  direction: ltr;
+}
+.brand__tag::before,
+.brand__tag::after { content: ''; width: 34px; height: 2px; background: var(--gold, #c6a15b); }
+
+/* نسخة متحركة (شاشة التحميل) — transform/opacity فقط */
+.brand--animated .brand__mark { animation: brand-pop .7s cubic-bezier(.2,.8,.2,1) both; }
+.brand--animated .brand__word { animation: brand-rise .7s .15s cubic-bezier(.2,.8,.2,1) both; }
+.brand--animated .brand__tag  { animation: brand-fade .7s .35s ease both; }
+@keyframes brand-pop  { from { opacity: 0; transform: scale(.86) translateY(8px); } }
+@keyframes brand-rise { from { opacity: 0; transform: translateY(14px); } }
+@keyframes brand-fade { from { opacity: 0; } }

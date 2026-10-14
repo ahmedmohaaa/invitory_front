@@ -1,0 +1,72 @@
+/* ===== خطوة «إعدادات إضافية» — غلاف الظرف ===== */
+.ex-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.ex-head__icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  display: grid; place-items: center; font-size: 1.2rem;
+  box-shadow: 0 8px 20px rgba(198, 161, 91, .3);
+}
+.ex-head__tag { font-size: .72rem; font-weight: 800; color: var(--gold-deep, #a9853f); margin-bottom: 2px; }
+
+.ex-label { display: block; font-size: .78rem; font-weight: 800; color: var(--navy, #14294b); margin: 16px 0 8px; }
+
+.ex-colorrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ex-colorrow input[type='color'] {
+  width: 42px; height: 36px; padding: 2px;
+  border: 1px solid rgba(20, 41, 75, .2); border-radius: 10px;
+  background: #fff; cursor: pointer;
+}
+.ex-colorrow code { font-size: .68rem; color: var(--muted, #5b6472); }
+.ex-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+.ex-swatch {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 2px 6px rgba(11, 28, 55, .2);
+  transition: transform .2s ease;
+}
+.ex-swatch:hover { transform: scale(1.2); }
+.ex-swatch.is-active { outline: 2px solid var(--gold, #c6a15b); outline-offset: 2px; }
+
+.ex-fonts { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.ex-font {
+  flex-shrink: 0; padding: 9px 18px; border-radius: 999px;
+  border: 1.5px solid rgba(20, 41, 75, .14); background: rgba(255, 255, 255, .6);
+  font-size: .88rem; color: var(--navy, #14294b);
+  transition: transform .2s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.ex-font:hover { transform: translateY(-2px); }
+.ex-font.is-selected {
+  border-color: var(--gold, #c6a15b); background: #fff;
+  box-shadow: 0 8px 20px rgba(198, 161, 91, .25);
+}
+
+/* بوكس معاينة الاسم */
+.ex-preview {
+  margin-top: 18px; padding: 22px 16px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(198, 161, 91, .14), transparent 65%),
+    rgba(255, 255, 255, .85);
+  border: 1.5px dashed rgba(198, 161, 91, .45);
+  display: grid; place-items: center;
+}
+.ex-preview__names {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 1.25rem; font-weight: 800; line-height: 1.4; text-align: center;
+  transition: color .3s ease;
+}
+.ex-preview__amp { font-size: .85rem; color: #c3c9d4; }
+
+.ex-hint { margin-top: 14px; font-size: .74rem; color: var(--muted, #5b6472); line-height: 1.8; }
+
+
+/* في StageExtraSettings.css */
+.ex-finish {
+  width: 100%; margin-top: 18px; padding: 14px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg, #14294b, #0b1c37);
+  color: #e6ce9c; font-size: .95rem; font-weight: 800;
+  box-shadow: 0 12px 28px rgba(11, 28, 55, .35);
+  transition: transform .2s ease;
+}
+.ex-finish:hover:not(:disabled) { transform: translateY(-2px); }
+.ex-finish:disabled { opacity: .6; cursor: not-allowed; }

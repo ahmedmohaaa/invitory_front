@@ -1,0 +1,31 @@
+/* ==========================================================
+   تعديلات تموضع النافبار داخل صفحتي المصادقة (إضافات فقط)
+   ========================================================== */
+
+/* 1) النافبار يمتد بعرض الشبكة بدل أن يصبح خلية داخلها */
+.login-page > .navbar,
+.forgot-page > .navbar {
+  grid-column: 1 / -1;
+  width: 100%;
+  justify-self: stretch;
+  align-self: start;
+}
+
+/* 2) تعديل ارتفاع صفحة الدخول بعد إضافة صف النافبار */
+.login-page { min-height: calc(100vh - 70px); }
+
+/* 3) تقليل المسافة العلوية لصفحة نسيت كلمة المرور */
+.forgot-page { padding-top: 16px; }
+
+/* 4) إنزال الأزرار العائمة (اللغة/الرئيسية) أسفل النافبار حتى لا تتداخل معه */
+.login-page .login-lang,
+.login-page .login-home,
+.forgot-page .forgot-lang,
+.forgot-page .forgot-home { top: 84px; }
+
+/* 5) إخفاء روابط أقسام الصفحة الرئيسية وزر القائمة داخل صفحات المصادقة
+      (لأنها روابط داخلية للـ Landing ولا تعمل هنا) */
+.login-page .navbar__links,
+.forgot-page .navbar__links,
+.login-page .navbar__burger,
+.forgot-page .navbar__burger { display: none; }

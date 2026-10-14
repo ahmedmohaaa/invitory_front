@@ -1,0 +1,18 @@
+.skeleton { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+.skeleton__item {
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  background: var(--cream-dark);
+  animation: sk-pop .5s ease both;
+}
+.skeleton--card .skeleton__item { width: 320px; height: 420px; border-radius: 160px 160px 22px 22px; }
+.skeleton--phone .skeleton__item { width: 230px; height: 460px; border-radius: 36px; }
+
+/* Shine sweep = translateX only (GPU) */
+.skeleton__shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .75) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: sk-shine 1.4s ease-in-out infinite;
+}
+@keyframes sk-shine { to { transform: translateX(100%); } }
+@keyframes sk-pop { from { opacity: 0; transform: translateY(12px); } }
