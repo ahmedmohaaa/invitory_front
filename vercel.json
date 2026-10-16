@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://169.58.57.75/api/:path*"
+      "destination": "https://donna-successful-order-nails.trycloudflare.com/api/:path*"
     }
   ]
 }
