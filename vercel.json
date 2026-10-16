@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://personals-implement-markers-intro.trycloudflare.com/api/:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
