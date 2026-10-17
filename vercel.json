@@ -1,11 +1,19 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "http://169.58.57.75/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "http://169.58.57.75/api/$1"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/media/(.*)",
+      "destination": "http://169.58.57.75/media/$1"
+    },
+    {
+      "source": "/static/(.*)",
+      "destination": "http://169.58.57.75/static/$1"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
