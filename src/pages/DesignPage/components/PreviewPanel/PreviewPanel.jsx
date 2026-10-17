@@ -274,10 +274,23 @@ export default function PreviewPanel() {
   const scrollRef = useRef(null);
   const [currentView, setCurrentView] = useState(1);
 
+  // ✅✅✅ التعديل الوحيد: نقل التعريفات قبل الـ useEffects ✅✅✅
+
+  // ✅ اتجاه التمرير (عمودي أو أفقي)
+  const scrollDirection = state.meta?.scrollDirection || 'vertical';
+  const isHorizontal = scrollDirection === 'horizontal';
+
   // ✅ الحالة الأفقية v2 — transform track
   const [hPage, setHPage] = useState(1);
   const [autoStopped, setAutoStopped] = useState(false);
   const touchX = useRef(null);
+
+  /* 🎯 مودالات التاب بار — مُصرّحة قبل الـ useEffects */
+  const [tabModal, setTabModal] = useState(null);
+
+  /* 📝 نموذج تأكيد الحضور */
+  const [rsvpForm, setRsvpForm] = useState({ name: '', attend: 'yes', guests: 0, wishes: '' });
+  const [rsvpSent, setRsvpSent] = useState(false);
 
   // ✅ مزامنة النقاط مع الصفحة الأفقية
   useEffect(() => {
@@ -314,10 +327,6 @@ export default function PreviewPanel() {
   const colors = state.theme?.colors || { title: '#14294B', body: '#3C4250', accent: '#C6A15B' };
   const bgFor = (n) => state.pages?.[n]?.background?.url || null;
 
-  // ✅ اتجاه التمرير (عمودي أو أفقي)
-  const scrollDirection = state.meta?.scrollDirection || 'vertical';
-  const isHorizontal = scrollDirection === 'horizontal';
-
   const handleScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
@@ -337,9 +346,6 @@ export default function PreviewPanel() {
     if (!el) return;
     el.scrollTo({ top: (n - 1) * el.clientHeight, behavior: 'smooth' });
   };
-
-  /* 🎯 مودالات التاب بار */
-  const [tabModal, setTabModal] = useState(null);
 
   /* 📷 الكاميرا الحية */
   const camVideoRef = useRef(null);
@@ -400,9 +406,6 @@ export default function PreviewPanel() {
       setRsvpSending(false);
     }
   };
-  /* 📝 نموذج تأكيد الحضور */
-  const [rsvpForm, setRsvpForm] = useState({ name: '', attend: 'yes', guests: 0, wishes: '' });
-  const [rsvpSent, setRsvpSent] = useState(false);
 
   /* 🧹 تنظيف عند الخروج */
   useEffect(() => () => {
