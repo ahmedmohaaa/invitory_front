@@ -14,6 +14,8 @@ import Connected from '../../components/Connected/Connected';
 import FeaturesRSVP from '../../components/FeaturesRSVP/FeaturesRSVP';
 import Testimonials from '../../components/Testimonials/Testimonials';
 import Footer from '../../components/Footer/Footer';
+import OurServices from '../../components/OurServices/OurServices';
+
 import './Home.css';
 import bandImg from "../../assets/mm.png";
 
@@ -32,6 +34,7 @@ export default function Home() {
 
         {/* Three Worlds - الباقات */}
         <ThreeWorlds />
+<OurServices />       {/* ← القسم الجديد */}
 
         {/* Templates Carousel */}
         <TemplatesCarousel />

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import './Testimonials.css';
 
@@ -21,55 +20,64 @@ const REVIEWS = Array.from({ length: 20 }, (_, i) => ({
   rating: 5 - (i % 3 === 2 ? 1 : 0),
 }));
 
-const PAGE_SIZE = 8;
+/** 
+ * Component فرعي لعرض الكارت (لتنظيف الكود وتجنب التكرار)
+ */
+const ReviewCard = ({ r, lang }) => (
+  <article className="review">
+    <div className="review__stars" aria-label={`${r.rating}/5`}>
+      {Array.from({ length: 5 }).map((_, s) => (
+        <svg key={s} viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
+             fill={s < r.rating ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.1L12 17l-5.6 3 1.2-6.1L3 9.6l6.3-.8z" />
+        </svg>
+      ))}
+    </div>
+    <p className="review__text">"{r.text[lang]}"</p>
+    <footer className="review__who">
+      <span className="review__avatar" aria-hidden="true">{r.name.charAt(0)}</span>
+      <div>
+        <strong>{r.name}</strong>
+        <em>{r.role[lang]}</em>
+      </div>
+    </footer>
+  </article>
+);
 
-/** Section 4 — Masonry testimonials with progressive "Load More". */
+/** Section 4 — Infinite Auto-playing Marquee (Cyber Edition) */
 export default function Testimonials() {
-  const { t, lang } = useLanguage();
-  const [visible, setVisible] = useState(PAGE_SIZE);
+  const { lang } = useLanguage();
 
-  const shown = REVIEWS.slice(0, visible);
-  const allLoaded = visible >= REVIEWS.length;
+  // نكرر المصفوفة مرتين لضمان حركة لا نهائية سلسة (Seamless Loop)
+  const marqueeData = [...REVIEWS, ...REVIEWS];
 
   return (
     <section className="reviews section" id="reviews" aria-labelledby="reviews-title">
       <div className="container">
         <header className="section-head">
-          <span className="section-eyebrow">{t('reviews.eyebrow')}</span>
-          <h2 className="section-title" id="reviews-title">{t('reviews.title')}</h2>
-          <p className="section-sub">{t('reviews.subtitle')}</p>
+          <span className="section-eyebrow">آراء عملائنا</span>
+          <h2 className="section-title" id="reviews-title">ثقة تُبنى لحظة بلحظة</h2>
+          <p className="section-sub">انضم إلى مئات العائلات والشركات التي اختارت Invitory لجعل مناسباتهم لا تُنسى.</p>
         </header>
+      </div>
 
-        <div className="reviews__masonry">
-          {shown.map((r) => (
-            <article className="review" key={r.id}>
-              <div className="review__stars" aria-label={`${r.rating}/5`}>
-                {Array.from({ length: 5 }).map((_, s) => (
-                  <svg key={s} viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
-                       fill={s < r.rating ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5">
-                    <path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.1L12 17l-5.6 3 1.2-6.1L3 9.6l6.3-.8z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="review__text">{r.text[lang]}</p>
-              <footer className="review__who">
-                <span className="review__avatar" aria-hidden="true">{r.name.charAt(0)}</span>
-                <div>
-                  <strong>{r.name}</strong>
-                  <em>{r.role[lang]}</em>
-                </div>
-              </footer>
-            </article>
+      {/* حاوية الشريط المتحرك مع تأثير التلاشي على الأطراف */}
+      <div className="marquee-wrapper">
+        
+        {/* المسار الأول: يتحرك لليسار */}
+        <div className="marquee-track track-left">
+          {marqueeData.map((r, i) => (
+            <ReviewCard key={`left-${r.id}-${i}`} r={r} lang={lang} />
           ))}
         </div>
 
-        {!allLoaded && (
-          <div className="reviews__more">
-            <button className="btn btn--gold" onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-              {t('reviews.loadMore')}
-            </button>
-          </div>
-        )}
+        {/* المسار الثاني: يتحرك لليمين (عكس الاتجاه لإضفاء حيوية) */}
+        <div className="marquee-track track-right">
+          {marqueeData.map((r, i) => (
+            <ReviewCard key={`right-${r.id}-${i}`} r={r} lang={lang} />
+          ))}
+        </div>
+
       </div>
     </section>
   );

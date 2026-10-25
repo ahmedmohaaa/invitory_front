@@ -1,26 +1,263 @@
-.reviews { background: linear-gradient(180deg, var(--cream-dark), var(--cream)); }
+/* ═══════════════════════════════════════════════════════════
+   💬 Testimonials — Cyber Marquee (حلقة لا نهائية صحيحة RTL)
+   ✅ المسار LTR ليضمن دخول البطاقات من اليمين
+   ✅ البطاقات RTL ليظل المحتوى العربي صحيحاً
+   ═══════════════════════════════════════════════════════════ */
 
-/* CSS-columns masonry */
-.reviews__masonry { columns: 3 300px; column-gap: 26px; }
+.reviews {
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 120px;
+}
 
+/* شبكة cyber خفيفة */
+.reviews::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(34, 170, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 170, 255, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* توهج مركزي */
+.reviews::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 800px; height: 600px;
+  background: radial-gradient(circle, rgba(34, 170, 255, 0.08), transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: blur(60px);
+}
+
+.reviews .section-head {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.reviews .section-eyebrow {
+  color: #22aaff !important;
+  text-shadow: 0 0 10px rgba(34, 170, 255, 0.5);
+  letter-spacing: 0.2em;
+}
+
+.reviews .section-title {
+  color: #fff !important;
+  text-shadow: 0 0 20px rgba(34, 170, 255, 0.3);
+  margin: 16px 0;
+}
+
+.reviews .section-sub {
+  color: rgba(34, 170, 255, 0.75) !important;
+  font-size: 1.05rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎠 الحاوية + تلاشي الأطراف (بدون mask-image)
+   ═══════════════════════════════════════════════════════════ */
+.marquee-wrapper {
+  direction: ltr;            /* ← السطر المطلوب */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.marquee-wrapper::before,
+.marquee-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 140px;
+  z-index: 5;
+  pointer-events: none;
+}
+.marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #000 10%, transparent 100%);
+}
+.marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #000 10%, transparent 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🛤️ المسارات — direction: ltr لضمان الحلقة الصحيحة
+   ═══════════════════════════════════════════════════════════ */
+.marquee-track {
+  display: flex;
+  /* ✅ المفتاح: المسار LTR لتدخل البطاقات من اليمين عند الحركة لليسار */
+  direction: ltr;
+  width: max-content;
+  position: relative;
+  z-index: 1;
+  /* ✅ بدون gap — المسافة عبر margin على البطاقة لضبط نقطة -50% بدقة */
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* الصف الأول: يتحرك لليسار ويدخل من اليمين */
+.track-left {
+  animation: scroll-left 90s linear infinite;
+}
+
+/* الصف الثاني: يتحرك لليمين ويدخل من اليسار (تباين بصري) */
+.track-right {
+  animation: scroll-right 100s linear infinite;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🃏 البطاقة — محتوى RTL داخل مسار LTR
+   ═══════════════════════════════════════════════════════════ */
 .review {
-  break-inside: avoid; margin-bottom: 26px;
-  background: var(--white); border-radius: var(--radius);
-  border: 1px solid rgba(20, 41, 75, .07); padding: 26px;
-  box-shadow: var(--shadow-1);
-  animation: review-rise .55s cubic-bezier(.2, .8, .2, 1) both;
-}
-@keyframes review-rise { from { opacity: 0; transform: translateY(18px); } }
+  /* ✅ المحتوى العربي يعود لاتجاهه الصحيح */
+  direction: rtl;
+  /* ✅ المسافة بين البطاقات (بديل الـ gap) لضبط الحلقة بدقة */
+  margin-inline-end: 24px;
 
-.review__stars { display: flex; gap: 3px; color: var(--gold); margin-bottom: 14px; }
-.review__text { color: var(--ink); font-size: .95rem; margin-bottom: 18px; }
-.review__who { display: flex; align-items: center; gap: 12px; }
+  min-width: 340px;
+  max-width: 380px;
+  flex-shrink: 0;
+
+  background:
+    linear-gradient(160deg, rgba(34, 170, 255, 0.06), rgba(0, 0, 0, 0) 45%),
+    #0a0c10;
+  border: 1px solid rgba(34, 170, 255, 0.25);
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+.review::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 170, 255, 0.5), transparent);
+  opacity: 0.6;
+}
+
+.review:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(34, 170, 255, 0.6);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(34, 170, 255, 0.25);
+}
+
+.review__stars {
+  display: flex;
+  gap: 4px;
+  color: #22aaff;
+}
+
+.review__text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.review__who {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(34, 170, 255, 0.15);
+}
+
 .review__avatar {
-  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
-  display: grid; place-items: center; font-weight: 800;
-  background: var(--navy); color: var(--gold-soft);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #22aaff, #66ccff);
+  color: #000;
+  box-shadow: 0 0 12px rgba(34, 170, 255, 0.5);
+  transition: transform 0.3s ease;
 }
-.review__who strong { display: block; color: var(--navy); font-size: .92rem; }
-.review__who em { font-style: normal; color: var(--muted); font-size: .78rem; }
 
-.reviews__more { text-align: center; margin-top: 34px; }
+.review:hover .review__avatar {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.review__who strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.review__who em {
+  font-style: normal;
+  color: #22aaff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📱 Responsive
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .reviews { padding: 60px 0 80px; }
+
+  .review {
+    min-width: 280px;
+    max-width: 300px;
+    padding: 22px;
+    margin-inline-end: 16px;
+  }
+
+  .marquee-wrapper { gap: 16px; }
+  .marquee-wrapper::before,
+  .marquee-wrapper::after { width: 60px; }
+
+  .track-left  { animation-duration: 70s; }
+  .track-right { animation-duration: 80s; }
+}
+
+@media (max-width: 480px) {
+  .review {
+    min-width: 260px;
+    padding: 20px;
+  }
+  .review__text { font-size: 0.88rem; }
+  .review__avatar { width: 38px; height: 38px; font-size: 0.95rem; }
+}

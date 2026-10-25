@@ -237,7 +237,7 @@ const buildPayload = (s) => {
    4) Provider — يدعم وضع المعاينة عبر initialData
    ═══════════════════════════════════════════════════════════ */
 export function DesignProvider({ invitationId = null, initialData = null, children }) {
-  console.log('[DBG-6] DesignProvider: initialData موجود؟', !!initialData, '| الأسماء:', initialData && initialData.couple);
+  // ❌ تم حذف console.log('[DBG-6]...') لتقليل الـ re-renders
     /* ✅ تهيئة الـ Reducer بـ initialData إن وُجد (وضع المعاينة) أو initialDesignState */
     /* ✅ تطبيع initialData: ضمان وجود meta.autosave وجميع الحقول الأساسية */
   const normalizedInitial = useMemo(() => {
@@ -273,7 +273,7 @@ export function DesignProvider({ invitationId = null, initialData = null, childr
     normalizedInitial,
     (init) => init  // lazy initializer — لا يُعيد الحساب
   );
-    console.log('[DBG-8] state الفعلي: الأسماء =', state.couple, '| خلفية صفحة 1 =', state.pages && state.pages['1']);
+  // ❌ تم حذف console.log('[DBG-8]...') لتقليل الـ re-renders
 
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -516,72 +516,84 @@ export function DesignProvider({ invitationId = null, initialData = null, childr
     [fonts],
   );
 
+  /* ═══════════════════════════════════════════════════════════
+     🚀 useMemo على value — الحل الجذري للبطء
+     ═══════════════════════════════════════════════════════════ */
+  const value = useMemo(
+    () => ({
+      state,
+      update,
+      toggle,
+      push,
+      remove,
+      setStage,
+      hydrate,
+      reset,
+      saveNow,
+      ensureId,
+      loadGalleryPhotos,   // ✅ الخطوة 11 — دالة إعادة تحميل الصور
+      loadContacts,        // ✅ الخطوة 13 — دالة إعادة تحميل جهات الاتصال
+      occasions,
+      occasionsLoading,
+      occasionsError,
+      reloadOccasions: loadOccasions,
+      getOccasion,
+      fonts,
+      fontsLoading,
+      getFont,
+      countries,
+      countriesLoading,
+      detailsCatalog,   // ✅ الخطوة 9 — كتالوج تفاصيل الحدث
+      detailsLoading,
+      musicLibrary,         // ✅ الخطوة 14 — مكتبة الموسيقى
+      musicLibraryLoading,  // ✅ الخطوة 14
+      loadMusicLibrary,     // ✅ الخطوة 14
+      loadGiftSettings, loadWishlist,
+      loadCameraSettings,   // ✅ الخطوة 16 — دالة إعادة تحميل إعدادات الكاميرا
+      loadRSVPSettings,   // ✅ الخطوة 18
+      isPreview,            // ✅ علم وضع المعاينة (للمكوّنات الفرعية)
+    }),
+    [
+      state,
+      update,
+      toggle,
+      push,
+      remove,
+      setStage,
+      hydrate,
+      reset,
+      saveNow,
+      ensureId,
+      loadGalleryPhotos,
+      loadContacts,
+      occasions,
+      occasionsLoading,
+      occasionsError,
+      loadOccasions,
+      getOccasion,
+      fonts,
+      fontsLoading,
+      getFont,
+      countries,
+      countriesLoading,
+      detailsCatalog,
+      detailsLoading,
+      musicLibrary,
+      musicLibraryLoading,
+      loadMusicLibrary,
+      loadGiftSettings,
+      loadWishlist,
+      loadCameraSettings,
+      loadRSVPSettings,
+      isPreview,
+    ]
+  );
+
   return (
-    <DesignContext.Provider
-      value={{
-        state,
-        update,
-        toggle,
-        push,
-        remove,
-        setStage,
-        hydrate,
-        reset,
-        saveNow,
-        ensureId,
-        loadGalleryPhotos,   // ✅ الخطوة 11 — دالة إعادة تحميل الصور
-        loadContacts,        // ✅ الخطوة 13 — دالة إعادة تحميل جهات الاتصال
-        occasions,
-        occasionsLoading,
-        occasionsError,
-        reloadOccasions: loadOccasions,
-        getOccasion,
-        fonts,
-        fontsLoading,
-        getFont,
-        countries,
-        countriesLoading,
-        detailsCatalog,   // ✅ الخطوة 9 — كتالوج تفاصيل الحدث
-        detailsLoading,
-        musicLibrary,         // ✅ الخطوة 14 — مكتبة الموسيقى
-        musicLibraryLoading,  // ✅ الخطوة 14
-        loadMusicLibrary,     // ✅ الخطوة 14
-         loadGiftSettings, loadWishlist,
-        loadCameraSettings,   // ✅ الخطوة 16 — دالة إعادة تحميل إعدادات الكاميرا
-                loadRSVPSettings,   // ✅ الخطوة 18
-        isPreview,            // ✅ علم وضع المعاينة (للمكوّنات الفرعية)
-      }}
-    >
+    <DesignContext.Provider value={value}>
       {children}
     </DesignContext.Provider>
   );
 }
 
 export const useDesign = () => useContext(DesignContext);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

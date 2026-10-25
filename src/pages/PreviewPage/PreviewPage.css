@@ -1,25 +1,363 @@
-.pvpage { min-height: 100vh; background: var(--cream, #f6f3ec); }
+/* ═══════════════════════════════════════════════════════════
+   👁️ صفحة المعاينة — Cyber Edition (أسود + أزرق نيون)
+   ═══════════════════════════════════════════════════════════ */
+
+.pvpage {
+  min-height: 100vh;
+  background: #000;
+  color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* شبكة cyber خفيفة في الخلفية */
+.pvpage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(34, 170, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 170, 255, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  z-index: 0;
+}
+
+/* توهج خلف الهاتف لإبرازه كنجم الصفحة */
+.pvpage::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(34, 170, 255, 0.12), transparent 65%);
+  transform: translateY(-50%);
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.pvpage > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📐 الشبكة (Grid) الرئيسية
+   ═══════════════════════════════════════════════════════════ */
 .pvpage__grid {
-  display: grid; grid-template-columns: minmax(320px, 460px) 1fr;
-  gap: 40px; align-items: center;
-  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(320px, 460px) 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 40px 24px 70px;
 }
-.pvpage__title { font-size: 1.6rem; font-weight: 800; color: var(--navy, #14294b); line-height: 1.6; }
-.pvpage__sub { margin-top: 10px; color: var(--muted, #5b6472); line-height: 1.9; font-size: .95rem; }
-.pvpage__actions { display: grid; gap: 12px; margin-top: 28px; }
-.pvpage__btn {
-  padding: 14px 18px; border-radius: 14px;
-  border: 1.5px solid rgba(20, 41, 75, .15);
-  background: #fff; color: var(--navy, #14294b);
-  font-size: .95rem; font-weight: 800;
-  transition: transform .2s ease, box-shadow .2s ease;
+
+/* ═══════════════════════════════════════════════════════════
+   📝 القسم الجانبي (النص + الأزرار)
+   ═══════════════════════════════════════════════════════════ */
+.pvpage__side {
+  position: relative;
+  padding: 32px;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgba(34, 170, 255, 0.2);
+  border-radius: 24px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(34, 170, 255, 0.08);
 }
-.pvpage__btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(11, 28, 55, .12); }
-.pvpage__btn--primary { background: linear-gradient(135deg, #14294b, #0b1c37); color: #e6ce9c; border-color: transparent; }
-.pvpage__btn--gold { background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b)); color: #14294b; border-color: transparent; }
-.pvpage__phone { display: grid; place-items: center; }
+
+/* خط نيون علوي متوهج */
+.pvpage__side::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #22aaff, transparent);
+  opacity: 0.7;
+  border-radius: 24px 24px 0 0;
+}
+
+/* نقطة نيون زخرفية بجانب العنوان */
+.pvpage__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: 0 0 15px rgba(34, 170, 255, 0.4);
+  position: relative;
+  padding-inline-start: 24px;
+}
+
+.pvpage__title::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22aaff;
+  box-shadow:
+    0 0 12px #22aaff,
+    0 0 24px rgba(34, 170, 255, 0.6);
+  animation: pv-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pv-dot-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 12px #22aaff,
+      0 0 24px rgba(34, 170, 255, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 18px #66ccff,
+      0 0 36px rgba(34, 170, 255, 0.9);
+  }
+}
+
+.pvpage__sub {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎯 الأزرار — تسلسل بصري واضح
+   ═══════════════════════════════════════════════════════════ */
+.pvpage__actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.pvpage__btn {
+  position: relative;
+  overflow: hidden;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(34, 170, 255, 0.3);
+  background: rgba(10, 10, 10, 0.5);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* تأثير لمعان مشترك (sheen) */
+.pvpage__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+
+.pvpage__btn:hover::before {
+  transform: translateX(120%);
+}
+
+.pvpage__btn:hover {
+  transform: translateY(-3px);
+  border-color: #22aaff;
+  color: #ffffff;
+  box-shadow:
+    0 12px 26px rgba(34, 170, 255, 0.25),
+    0 0 20px rgba(34, 170, 255, 0.15);
+}
+
+/* الزر الأساسي — نيون أزرق قوي (المعاينة الكاملة) */
+.pvpage__btn--primary {
+  background: linear-gradient(135deg, #22aaff, #66ccff);
+  color: #000;
+  border-color: transparent;
+  box-shadow:
+    0 12px 26px rgba(34, 170, 255, 0.4),
+    0 0 20px rgba(34, 170, 255, 0.3);
+}
+
+.pvpage__btn--primary:hover {
+  background: linear-gradient(135deg, #66ccff, #aaddff);
+  box-shadow:
+    0 16px 34px rgba(34, 170, 255, 0.6),
+    0 0 30px rgba(34, 170, 255, 0.5);
+}
+
+/* زر المتابعة — أبيض ساطع مع إطار نيون (الإجراء الرئيسي التالي) */
+.pvpage__btn--gold {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1.5px solid #22aaff;
+  box-shadow:
+    0 8px 20px rgba(34, 170, 255, 0.25),
+    0 0 15px rgba(34, 170, 255, 0.2),
+    inset 0 0 15px rgba(34, 170, 255, 0.08);
+  text-shadow: 0 0 10px rgba(34, 170, 255, 0.5);
+  font-weight: 800;
+}
+
+.pvpage__btn--gold:hover {
+  background: rgba(34, 170, 255, 0.15);
+  color: #ffffff;
+  box-shadow:
+    0 14px 30px rgba(34, 170, 255, 0.5),
+    0 0 25px rgba(34, 170, 255, 0.4),
+    inset 0 0 20px rgba(34, 170, 255, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📱 إطار الهاتف — النجم البصري
+   ═══════════════════════════════════════════════════════════ */
+.pvpage__phone {
+  display: grid;
+  place-items: center;
+  position: relative;
+  padding: 20px;
+}
+
+/* حلقة نيون حول الهاتف */
+.pvpage__phone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  width: 380px;
+  height: 380px;
+  margin: auto;
+  border: 1px solid rgba(34, 170, 255, 0.2);
+  box-shadow:
+    0 0 60px rgba(34, 170, 255, 0.15),
+    inset 0 0 60px rgba(34, 170, 255, 0.05);
+  animation: pv-ring-pulse 4s ease-in-out infinite;
+}
+
+@keyframes pv-ring-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+    box-shadow:
+      0 0 60px rgba(34, 170, 255, 0.15),
+      inset 0 0 60px rgba(34, 170, 255, 0.05);
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow:
+      0 0 80px rgba(34, 170, 255, 0.25),
+      inset 0 0 80px rgba(34, 170, 255, 0.1);
+  }
+}
+
+/* جسيمات نيون عائمة حول الهاتف */
+.pvpage__phone::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image:
+    radial-gradient(circle at 20% 30%, #22aaff 1px, transparent 2px),
+    radial-gradient(circle at 80% 20%, #66ccff 1px, transparent 2px),
+    radial-gradient(circle at 70% 70%, #22aaff 1px, transparent 2px),
+    radial-gradient(circle at 30% 80%, #66ccff 1px, transparent 2px);
+  background-size: 100% 100%;
+  opacity: 0.6;
+  animation: pv-particles-drift 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pv-particles-drift {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -52%) rotate(180deg);
+    opacity: 0.9;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📱 Responsive
+   ═══════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .pvpage__grid { grid-template-columns: 1fr; }
-  .pvpage__phone { order: -1; }
+  .pvpage__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .pvpage__phone {
+    order: -1;
+    padding: 10px;
+  }
+
+  .pvpage__phone::before {
+    width: 320px;
+    height: 320px;
+  }
+
+  .pvpage__phone::after {
+    width: 400px;
+    height: 400px;
+  }
+
+  .pvpage__side {
+    padding: 24px;
+  }
+
+  .pvpage__title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pvpage__grid {
+    padding: 24px 16px 50px;
+  }
+
+  .pvpage__side {
+    padding: 20px;
+  }
+
+  .pvpage__title {
+    font-size: 1.25rem;
+    padding-inline-start: 20px;
+  }
+
+  .pvpage__sub {
+    font-size: 0.88rem;
+  }
+
+  .pvpage__btn {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  .pvpage__phone::before {
+    width: 260px;
+    height: 260px;
+  }
+
+  .pvpage__phone::after {
+    width: 320px;
+    height: 320px;
+  }
 }
