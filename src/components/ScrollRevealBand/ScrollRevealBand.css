@@ -1,253 +1,86 @@
-/* ═══════════════════════════════════════════════════════════
-   🎬 ScrollRevealBand — Cyber Cinematic Edition
-   ═══════════════════════════════════════════════════════════ */
-
+/* ===== 🖼️ قسم كشف الصورة بالتمرير (جمالي فقط) ===== */
 .srb {
-  --srb-len: 250vh;   /* زيادة الطول لجعل حركة الكشف أبطأ وأكثر سينمائية */
-  --srb-win: 60vh;    /* نافذة عرض أكبر قليلاً لإبراز الصورة */
-  --neon-blue: #22aaff;
-  --neon-glow: rgba(34, 170, 255, 0.4);
-  
+  --srb-len: 220vh;   /* طول مسار التمرير داخل القسم */
+  --srb-win: 50vh;    /* نافذة العرض = نصف طول الصورة */
   position: relative;
   height: var(--srb-len);
-  background: #000; /* ضمان خلفية سوداء صلبة أثناء التمرير */
 }
 
 /* الإطار الثابت */
 .srb__pin {
-  position: sticky;
-  top: 0;
+  position: sticky; top: 0;
   height: 100vh;
-  display: grid;
-  place-items: center;
+  display: grid; place-items: center;
   overflow: hidden;
+  background: transparent;
 }
 
-/* نافذة العرض السينمائية */
+/* نافذة العرض */
 .srb__frame {
   position: relative;
   width: 100%;
   height: var(--srb-win);
   overflow: hidden;
-  border: 1px solid rgba(34, 170, 255, 0.3);
-  border-radius: 2px;
-  box-shadow:
-    /* توهج خارجي ناعم */
-    0 0 40px rgba(34, 170, 255, 0.15),
-    /* ظل داخلي عميق للتركيز على الوسط */
-    inset 0 0 80px 20px rgba(0, 0, 0, 0.85),
-    /* توهج داخلي أزرق خافت جداً عند الحواف */
-    inset 0 0 30px rgba(34, 170, 255, 0.1);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
-
-.srb__frame:hover {
-  border-color: rgba(34, 170, 255, 0.6);
-  box-shadow:
-    0 0 60px rgba(34, 170, 255, 0.25),
-    inset 0 0 80px 20px rgba(0, 0, 0, 0.9),
-    inset 0 0 40px rgba(34, 170, 255, 0.15);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   📐 زوايا تقنية (Viewfinder Corners)
-   ═══════════════════════════════════════════════════════════ */
-.srb__corner {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  z-index: 4;
-  pointer-events: none;
-  transition: all 0.4s ease;
-}
-
-.srb__corner::before,
-.srb__corner::after {
+.srb__frame::after {
   content: '';
-  position: absolute;
-  background: var(--neon-blue);
-  box-shadow: 0 0 8px var(--neon-blue);
+  position: absolute; inset: 0;
+  box-shadow:
+    inset 0 46px 70px -46px rgba(11, 28, 55, .45),
+    inset 0 -46px 70px -46px rgba(11, 28, 55, .45);
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* الزاوية العلوية اليسرى */
-.srb__corner--tl { top: 12px; left: 12px; }
-.srb__corner--tl::before { top: 0; left: 0; width: 100%; height: 2px; }
-.srb__corner--tl::after { top: 0; left: 0; width: 2px; height: 100%; }
-
-/* الزاوية العلوية اليمنى */
-.srb__corner--tr { top: 12px; right: 12px; }
-.srb__corner--tr::before { top: 0; right: 0; width: 100%; height: 2px; }
-.srb__corner--tr::after { top: 0; right: 0; width: 2px; height: 100%; }
-
-/* الزاوية السفلية اليسرى */
-.srb__corner--bl { bottom: 12px; left: 12px; }
-.srb__corner--bl::before { bottom: 0; left: 0; width: 100%; height: 2px; }
-.srb__corner--bl::after { bottom: 0; left: 0; width: 2px; height: 100%; }
-
-/* الزاوية السفلية اليمنى */
-.srb__corner--br { bottom: 12px; right: 12px; }
-.srb__corner--br::before { bottom: 0; right: 0; width: 100%; height: 2px; }
-.srb__corner--br::after { bottom: 0; right: 0; width: 2px; height: 100%; }
-
-.srb__frame:hover .srb__corner {
-  width: 32px;
-  height: 32px;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🖼️ الصورة المنزلقة
-   ═══════════════════════════════════════════════════════════ */
+/* الصورة المنزلقة */
 .srb__img {
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
+  position: absolute; inset-inline: 0; top: 0;
   width: 100%;
   height: calc(var(--srb-win) * 2);
   object-fit: cover;
   object-position: center top;
-  /* استخدام translate3d لتفعيل تسريع GPU ومنع التقطيع */
-  transform: translate3d(0, calc(var(--p, 0) * -50%), 0) scale(1.05);
+  transform: translateY(calc(var(--p, 0) * -50%));
   will-change: transform;
-  transition: transform 0.1s linear; /* حركة سلسة جداً مع التمرير */
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ✍️ الطبقة العلوية: عبارة + زر
-   ═══════════════════════════════════════════════════════════ */
+/* ===== ✍️ الطبقة فوق الصورة: عبارة + زر About ===== */
 .srb__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 28px;
+  position: absolute; inset: 0; z-index: 3;
+  display: grid; place-items: center; align-content: center; gap: 20px;
   text-align: center;
-  /* تدرج ذكي: أسود في الأسفل للقراءة، شفاف في الأعلى لإظهار الصورة */
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.3) 40%,
-    rgba(0, 0, 0, 0.75) 100%
-  );
-  pointer-events: none;
-  padding: 0 20px;
+  background: radial-gradient(62% 62% at 50% 50%, rgba(11, 28, 55, .42), rgba(11, 28, 55, .14) 72%, transparent);
+  pointer-events: none;               /* لا تعيق مشاهدة الكشف */
 }
-
 .srb__phrase {
-  display: grid;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.srb__phrase-line1,
-.srb__phrase-line2 {
-  color: #ffffff;
+  display: grid; gap: 6px;
+  color: #fff;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.6rem, 4vw, 3rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(34, 170, 255, 0.3);
-  opacity: 0;
-  animation: phrase-fade-in 1s ease-out forwards;
+  font-size: clamp(1.5rem, 3.4vw, 2.7rem);
+  font-weight: 600; letter-spacing: .02em;
+  text-shadow: 0 4px 26px rgba(11, 28, 55, .6);
 }
+[dir='rtl'] .srb__phrase { font-family: 'Tajawal', system-ui, sans-serif; font-weight: 800; line-height: 1.6; }
 
-.srb__phrase-line2 {
-  animation-delay: 0.2s;
-  font-size: clamp(1.4rem, 3.5vw, 2.6rem);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-[dir='rtl'] .srb__phrase-line1,
-[dir='rtl'] .srb__phrase-line2 {
-  font-family: 'Tajawal', system-ui, sans-serif;
-  font-weight: 800;
-  line-height: 1.4;
-}
-
-@keyframes phrase-fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🔘 زر التفاعل الزجاجي المتوهج
-   ═══════════════════════════════════════════════════════════ */
 .srb__about {
-  pointer-events: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  border-radius: 999px;
-  border: 1.5px solid rgba(34, 170, 255, 0.5);
-  background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  color: #22aaff;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-  box-shadow: 0 0 20px rgba(34, 170, 255, 0.15);
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  opacity: 0;
-  animation: phrase-fade-in 1s ease-out 0.4s forwards;
+  pointer-events: auto;               /* الزر وحده قابل للنقر */
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 26px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .65);
+  background: rgba(255, 255, 255, .14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff; font-size: .84rem; font-weight: 700;
+  transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
-
-.srb__about svg {
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
 .srb__about:hover {
-  background: rgba(34, 170, 255, 0.15);
-  border-color: #22aaff;
-  color: #ffffff;
-  box-shadow: 
-    0 0 30px rgba(34, 170, 255, 0.4),
-    inset 0 0 15px rgba(34, 170, 255, 0.1);
-  transform: translateY(-3px);
+  background: rgba(255, 255, 255, .26);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(11, 28, 55, .35);
 }
+[dir='rtl'] .srb__about svg { transform: scaleX(-1); }
 
-.srb__about:hover svg {
-  transform: translateX(4px);
-  filter: drop-shadow(0 0 4px rgba(34, 170, 255, 0.8));
-}
-
-[dir='rtl'] .srb__about:hover svg {
-  transform: translateX(-4px);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   📱 استجابة الشاشات (Responsive)
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .srb {
-    --srb-len: 200vh;
-    --srb-win: 50vh;
-  }
-  
-  .srb__corner {
-    width: 16px;
-    height: 16px;
-  }
-  .srb__corner--tl, .srb__corner--tr { top: 8px; }
-  .srb__corner--bl, .srb__corner--br { bottom: 8px; }
-  .srb__corner--tl, .srb__corner--bl { left: 8px; }
-  .srb__corner--tr, .srb__corner--br { right: 8px; }
-
-  .srb__phrase-line1 { font-size: 1.4rem; }
-  .srb__phrase-line2 { font-size: 1.2rem; }
-  
-  .srb__about {
-    padding: 12px 24px;
-    font-size: 0.82rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .srb { --srb-len: 180vh; --srb-win: 45vh; }
-  .srb__overlay { gap: 20px; }
+/* ===== استجابة ===== */
+@media (max-width: 760px) {
+  .srb { --srb-len: 170vh; --srb-win: 42vh; }
+  .srb__phrase { font-size: 1.35rem; }
 }

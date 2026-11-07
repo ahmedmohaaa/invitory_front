@@ -9,21 +9,6 @@ const currencySymbol = (code, lang) =>
   ({ EGP: lang === 'ar' ? 'ج.م' : 'EGP', USD: '$', SAR: lang === 'ar' ? 'ر.س' : 'SAR' }[code] || code);
 
 /**
- * ✅ تطبيع البيانات: استخراج array من أي شكل ممكن للـ response
- * يدعم: array مباشر | { data: [...] } | { results: [...] } | { packages: [...] }
- */
-const normalizePackages = (data) => {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data.data)) return data.data;
-  if (Array.isArray(data.results)) return data.results;
-  if (Array.isArray(data.packages)) return data.packages;
-  if (data.items && Array.isArray(data.items)) return data.items;
-  console.warn('[ThreeWorlds] Unexpected response shape:', data);
-  return [];
-};
-
-/**
  * Section 1 — "Three Worlds" pricing cards.
  * 100% API-driven (no mock data).
  */
@@ -36,15 +21,8 @@ export default function ThreeWorlds() {
   const load = useCallback(() => {
     setStatus('loading');
     publicApi.getPackages()
-      .then((data) => {
-        const pkgs = normalizePackages(data);
-        setPackages(pkgs.slice(0, 3));
-        setStatus('ready');
-      })
-      .catch((err) => {
-        console.error('[ThreeWorlds] Failed to load packages:', err);
-        setStatus('error');
-      });
+      .then((data) => { setPackages(data.slice(0, 3)); setStatus('ready'); })
+      .catch(() => setStatus('error'));
   }, []);
 
   useEffect(() => { load(); }, [load, tick]);

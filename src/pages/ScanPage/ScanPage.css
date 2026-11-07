@@ -1,503 +1,153 @@
-/* ═══════════════════════════════════════════════════════════
-   🔐 صفحة مسح QR — Cyber Edition (أسود + أزرق نيون)
-   ═══════════════════════════════════════════════════════════ */
-
+/* 🔐 صفحة مسح QR */
 .scan {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
+  display: grid; place-items: center;
   padding: 20px;
-  background: #000;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(198, 161, 91, .22), transparent 65%),
+    linear-gradient(165deg, #16304f 0%, #0b1c37 70%);
   font-family: 'Tajawal', system-ui, sans-serif;
   direction: rtl;
-  position: relative;
-  overflow: hidden;
 }
 
-/* شبكة cyber خفيفة في الخلفية */
-.scan::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(34, 170, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 170, 255, 0.025) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  z-index: 0;
-}
-
-/* توهج مركزي خلف البطاقة */
-.scan::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(34, 170, 255, 0.12), transparent 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  filter: blur(80px);
-  z-index: 0;
-}
-
-.scan > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ⏳ حالة التحميل
-   ═══════════════════════════════════════════════════════════ */
 .scan-loading {
-  display: grid;
-  place-items: center;
-  gap: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  display: grid; place-items: center; gap: 16px;
+  color: rgba(246, 243, 236, .9);
 }
-
 .scan-loading__orb {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 3px solid rgba(34, 170, 255, 0.2);
-  border-top-color: #22aaff;
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 3px solid rgba(230, 206, 156, .2);
+  border-top-color: var(--gold-soft, #e6ce9c);
   animation: scan-spin 1s linear infinite;
-  box-shadow: 0 0 20px rgba(34, 170, 255, 0.4);
 }
+@keyframes scan-spin { to { transform: rotate(360deg); } }
 
-@keyframes scan-spin {
-  to { transform: rotate(360deg); }
-}
-
-.scan-loading p {
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(34, 170, 255, 0.4);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ❌ حالات الخطأ (Glassmorphism)
-   ═══════════════════════════════════════════════════════════ */
-.scan-error,
-.scan-card {
-  width: 100%;
-  max-width: 420px;
+.scan-error, .scan-card {
+  width: 100%; max-width: 420px;
   padding: 28px 24px;
   border-radius: 24px;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  border: 1px solid rgba(34, 170, 255, 0.3);
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.8),
-    0 0 30px rgba(34, 170, 255, 0.15);
-  animation: scan-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  position: relative;
-  overflow: hidden;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(11, 28, 55, .3);
+  animation: scan-in .4s cubic-bezier(.2, .8, .2, 1) both;
 }
+@keyframes scan-in { from { opacity: 0; transform: translateY(16px); } }
 
-/* خط نيون علوي متوهج */
-.scan-error::before,
-.scan-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #22aaff, transparent);
-  opacity: 0.8;
-}
-
-@keyframes scan-in {
-  from { opacity: 0; transform: translateY(16px); }
-}
-
-.scan-error {
-  text-align: center;
-}
-
+.scan-error { text-align: center; }
 .scan-error__icon {
-  display: grid;
-  place-items: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(255, 51, 102, 0.15);
-  border: 2px solid #ff6688;
-  color: #ff6688;
-  font-size: 1.8rem;
-  font-weight: 800;
+  display: grid; place-items: center;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #fdeaea; color: #d64545;
+  font-size: 1.8rem; font-weight: 800;
   margin: 0 auto 16px;
-  box-shadow:
-    0 0 20px rgba(255, 51, 102, 0.4),
-    inset 0 0 15px rgba(255, 51, 102, 0.1);
 }
+.scan-error__title { font-size: 1.15rem; font-weight: 800; color: #14294b; margin-bottom: 6px; }
+.scan-error__msg { font-size: .88rem; color: #5b6472; line-height: 1.7; }
 
-.scan-error__title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 6px;
-  text-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
-}
-
-.scan-error__msg {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.7;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🎫 رأس البطاقة (معلومات الدعوة)
-   ═══════════════════════════════════════════════════════════ */
-.scan-card__head {
-  text-align: center;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(34, 170, 255, 0.2);
-}
-
+.scan-card__head { text-align: center; padding-bottom: 18px; border-bottom: 1px solid rgba(20, 41, 75, .1); }
 .scan-card__badge {
   display: inline-block;
-  padding: 5px 16px;
-  border-radius: 999px;
-  background: rgba(34, 170, 255, 0.15);
-  border: 1px solid rgba(34, 170, 255, 0.4);
-  color: #22aaff;
-  font-size: 0.72rem;
-  font-weight: 800;
+  padding: 4px 14px; border-radius: 999px;
+  background: rgba(198, 161, 91, .15);
+  color: #a9853f;
+  font-size: .72rem; font-weight: 800;
   margin-bottom: 12px;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 8px rgba(34, 170, 255, 0.6);
 }
-
 .scan-card__title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.01em;
+  font-size: 1.4rem; font-weight: 800;
+  color: #14294b;
+  letter-spacing: -.01em;
   line-height: 1.4;
   margin-bottom: 6px;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
+.scan-card__date { font-size: .85rem; color: #5b6472; font-weight: 600; }
+.scan-card__loc { font-size: .8rem; color: #5b6472; margin-top: 4px; }
 
-.scan-card__date {
-  font-size: 0.85rem;
-  color: rgba(34, 170, 255, 0.85);
-  font-weight: 600;
-  text-shadow: 0 0 8px rgba(34, 170, 255, 0.3);
-}
-
-.scan-card__loc {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 4px;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🔢 عداد الحضور (نيون)
-   ═══════════════════════════════════════════════════════════ */
 .scan-card__counter {
-  padding: 20px 16px;
+  padding: 16px;
   margin-top: 18px;
-  border-radius: 16px;
-  background:
-    radial-gradient(circle at top, rgba(34, 170, 255, 0.1), transparent 70%),
-    rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(34, 170, 255, 0.3);
-  color: #ffffff;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #14294b, #0b1c37);
+  color: #f6f3ec;
   text-align: center;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(34, 170, 255, 0.05);
-  position: relative;
-  overflow: hidden;
 }
-
-/* خط نيون سفلي متوهج */
-.scan-card__counter::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #22aaff, transparent);
-  opacity: 0.6;
-}
-
 .scan-card__count {
   display: block;
-  font-size: 3rem;
-  font-weight: 800;
-  color: #22aaff;
+  font-size: 2.4rem; font-weight: 800;
+  color: var(--gold-soft, #e6ce9c);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  text-shadow:
-    0 0 20px rgba(34, 170, 255, 0.8),
-    0 0 40px rgba(34, 170, 255, 0.4);
-  animation: scan-count-pulse 2s ease-in-out infinite;
 }
-
-@keyframes scan-count-pulse {
-  0%, 100% {
-    text-shadow:
-      0 0 20px rgba(34, 170, 255, 0.8),
-      0 0 40px rgba(34, 170, 255, 0.4);
-  }
-  50% {
-    text-shadow:
-      0 0 30px rgba(34, 170, 255, 1),
-      0 0 60px rgba(34, 170, 255, 0.6);
-  }
-}
-
 .scan-card__of {
   display: block;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 8px;
-  font-weight: 600;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ✅ نتيجة التحقق (نجاح / فشل)
-   ═══════════════════════════════════════════════════════════ */
-.scan-result {
-  margin-top: 16px;
-  padding: 18px;
-  border-radius: 14px;
-  text-align: center;
-  animation: scan-in 0.3s ease both;
-}
-
-/* نجاح — أخضر نيون */
-.scan-result--ok {
-  background: rgba(0, 255, 136, 0.1);
-  border: 1.5px solid rgba(0, 255, 136, 0.5);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-}
-
-/* فشل — أحمر نيون */
-.scan-result--fail {
-  background: rgba(255, 51, 102, 0.1);
-  border: 1.5px solid rgba(255, 51, 102, 0.5);
-  box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
-}
-
-.scan-result__icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  margin: 0 auto 10px;
-  font-size: 1.3rem;
-  font-weight: 800;
-}
-
-.scan-result--ok .scan-result__icon {
-  background: #00ff88;
-  color: #000;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
-}
-
-.scan-result--fail .scan-result__icon {
-  background: #ff6688;
-  color: #000;
-  box-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
-}
-
-.scan-result__msg {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-}
-
-.scan-result--ok .scan-result__msg {
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-}
-
-.scan-result--fail .scan-result__msg {
-  text-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
-}
-
-.scan-result__count {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: .78rem;
+  color: rgba(246, 243, 236, .7);
   margin-top: 6px;
 }
 
-.scan-result__count strong {
-  color: #22aaff;
-  font-weight: 800;
-  text-shadow: 0 0 8px rgba(34, 170, 255, 0.6);
+.scan-result {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+  animation: scan-in .3s ease both;
 }
-
-/* ═══════════════════════════════════════════════════════════
-   📝 نموذج التحقق
-   ═══════════════════════════════════════════════════════════ */
-.scan-form {
-  margin-top: 18px;
+.scan-result--ok { background: rgba(74, 222, 128, .12); border: 1.5px solid rgba(74, 222, 128, .4); }
+.scan-result--fail { background: rgba(248, 113, 113, .12); border: 1.5px solid rgba(248, 113, 113, .4); }
+.scan-result__icon {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  margin: 0 auto 8px;
+  font-size: 1.2rem; font-weight: 800;
 }
+.scan-result--ok .scan-result__icon { background: #22c55e; color: #fff; }
+.scan-result--fail .scan-result__icon { background: #ef4444; color: #fff; }
+.scan-result__msg { font-size: .88rem; font-weight: 700; color: #14294b; }
+.scan-result__count { font-size: .78rem; color: #5b6472; margin-top: 4px; }
+.scan-result__count strong { color: #14294b; font-weight: 800; }
 
+.scan-form { margin-top: 18px; }
 .scan-form__label {
   display: block;
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: rgba(34, 170, 255, 0.9);
+  font-size: .78rem; font-weight: 800;
+  color: #14294b;
   margin: 12px 0 6px;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 8px rgba(34, 170, 255, 0.3);
 }
-
 .scan-form__input {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1.5px solid rgba(34, 170, 255, 0.3);
+  width: 100%; padding: 13px 14px;
+  border: 1.5px solid rgba(20, 41, 75, .14);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 0.95rem;
-  color: #ffffff;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  background: #fff;
+  font-size: .95rem; color: #20293a;
+  transition: border-color .25s ease, box-shadow .25s ease;
 }
-
-.scan-form__input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.scan-form__input:focus {
-  outline: none;
-  border-color: #22aaff;
-  background: rgba(0, 0, 0, 0.8);
-  box-shadow:
-    0 0 0 4px rgba(34, 170, 255, 0.15),
-    0 0 20px rgba(34, 170, 255, 0.3);
-}
-
-/* حقل PIN — أحرف كبيرة ومتباعدة */
+.scan-form__input:focus { outline: none; border-color: #c6a15b; box-shadow: 0 0 0 4px rgba(198, 161, 91, .15); }
 .scan-form__input--pin {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: 0.5em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem; font-weight: 800;
+  letter-spacing: .4em;
   text-align: center;
-  color: #22aaff;
-  text-shadow: 0 0 12px rgba(34, 170, 255, 0.6);
-  padding-inline: 10px;
+  color: #a9853f;
 }
-
-/* زر تسجيل الحضور — نيون أزرق */
 .scan-form__submit {
-  width: 100%;
-  margin-top: 18px;
-  padding: 15px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #22aaff, #66ccff);
-  color: #000;
-  font-size: 1rem;
-  font-weight: 800;
+  width: 100%; margin-top: 18px; padding: 15px;
+  border: none; border-radius: 14px;
+  background: linear-gradient(135deg, #e6ce9c, #c6a15b);
+  color: #14294b;
+  font-size: 1rem; font-weight: 800;
   cursor: pointer;
-  box-shadow:
-    0 12px 28px rgba(34, 170, 255, 0.4),
-    0 0 20px rgba(34, 170, 255, 0.3);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  position: relative;
-  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-
-/* تأثير لمعان (sheen) */
-.scan-form__submit::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform 0.7s ease;
-}
-
-.scan-form__submit:hover:not(:disabled)::before {
-  transform: translateX(120%);
-}
-
 .scan-form__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow:
-    0 16px 34px rgba(34, 170, 255, 0.6),
-    0 0 30px rgba(34, 170, 255, 0.5);
-  background: linear-gradient(135deg, #66ccff, #aaddff);
+  box-shadow: 0 10px 24px rgba(198, 161, 91, .35);
 }
+.scan-form__submit:disabled { opacity: .6; cursor: not-allowed; }
 
-.scan-form__submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  animation: scan-pulse-busy 1.2s ease-in-out infinite;
-}
-
-@keyframes scan-pulse-busy {
-  0%, 100% {
-    box-shadow:
-      0 12px 28px rgba(34, 170, 255, 0.4),
-      0 0 20px rgba(34, 170, 255, 0.3);
-  }
-  50% {
-    box-shadow:
-      0 12px 28px rgba(34, 170, 255, 0.8),
-      0 0 40px rgba(34, 170, 255, 0.5);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🔻 الفوتر
-   ═══════════════════════════════════════════════════════════ */
 .scan-footer {
-  margin-top: 24px;
+  margin-top: 20px;
   text-align: center;
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: .72rem;
+  color: #5b6472;
 }
-
-.scan-footer strong {
-  color: #22aaff;
-  font-weight: 800;
-  text-shadow: 0 0 8px rgba(34, 170, 255, 0.6);
-  letter-spacing: 0.05em;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   📱 Responsive (موبايل)
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 480px) {
-  .scan {
-    padding: 16px;
-  }
-
-  .scan-error,
-  .scan-card {
-    padding: 24px 20px;
-  }
-
-  .scan-card__title {
-    font-size: 1.25rem;
-  }
-
-  .scan-card__count {
-    font-size: 2.4rem;
-  }
-
-  .scan-form__input--pin {
-    font-size: 1.4rem;
-    letter-spacing: 0.4em;
-  }
-
-  .scan-form__submit {
-    padding: 14px;
-    font-size: 0.95rem;
-  }
-}
+.scan-footer strong { color: #a9853f; }

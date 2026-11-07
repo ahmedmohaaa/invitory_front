@@ -1,175 +1,29 @@
-/* ═══════════════════════════════════════════════════════════
-   🧭 شريط خطوات الرحلة — Cyber Edition (أسود + أزرق نيون)
-   ═══════════════════════════════════════════════════════════ */
-
 .ps {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px 24px 14px;
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  border-bottom: 1px solid rgba(34, 170, 255, 0.2);
-  position: relative;
-  overflow: hidden;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 16px 22px 10px;
+  background: rgba(255, 255, 255, .6);
+  border-bottom: 1px solid rgba(20, 41, 75, .08);
+  backdrop-filter: blur(10px);
 }
-
-/* خط نيون سفلي متوهج */
-.ps::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(34, 170, 255, 0.6),
-    transparent
-  );
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ➖ الخطوط بين النقاط
-   ═══════════════════════════════════════════════════════════ */
 .ps__line {
-  flex: 1;
-  max-width: 140px;
-  height: 2px;
-  margin-top: 13px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-  transition: background-color 0.5s ease, box-shadow 0.5s ease;
-  position: relative;
+  flex: 1; max-width: 130px; height: 2px; margin-top: 13px;
+  background: #d9d5cc; border-radius: 2px;
+  transition: background-color .5s ease;
 }
-
-/* الخط المنجز — نيون متوهج */
-.ps__line.is-done {
-  background: linear-gradient(90deg, #22aaff, #66ccff);
-  box-shadow:
-    0 0 8px rgba(34, 170, 255, 0.6),
-    0 0 16px rgba(34, 170, 255, 0.3);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🔵 النقاط (Nodes)
-   ═══════════════════════════════════════════════════════════ */
-.ps__node {
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  min-width: 68px;
-  position: relative;
-}
-
+.ps__line.is-done { background: var(--gold, #c6a15b); }
+.ps__node { display: grid; justify-items: center; gap: 6px; min-width: 62px; }
 .ps__dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.72rem;
-  font-weight: 800;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  position: relative;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #e6e2d8; color: #8a8577;
+  font-size: .7rem; font-weight: 800;
+  transition: background-color .4s ease, color .4s ease, box-shadow .4s ease;
 }
-
-/* النقطة النشطة — نيون نابض */
 .ps__dot.is-active {
-  background: linear-gradient(135deg, #22aaff, #66ccff);
-  border-color: transparent;
-  color: #000;
-  box-shadow:
-    0 0 0 4px rgba(34, 170, 255, 0.15),
-    0 0 16px rgba(34, 170, 255, 0.6),
-    0 0 28px rgba(34, 170, 255, 0.3);
-  animation: ps-pulse 2s ease-in-out infinite;
-  transform: scale(1.08);
+  background: linear-gradient(135deg, var(--gold-soft, #e6ce9c), var(--gold, #c6a15b));
+  color: #14294b;
+  box-shadow: 0 6px 16px rgba(198, 161, 91, .4);
 }
-
-@keyframes ps-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 0 4px rgba(34, 170, 255, 0.15),
-      0 0 16px rgba(34, 170, 255, 0.6),
-      0 0 28px rgba(34, 170, 255, 0.3);
-  }
-  50% {
-    box-shadow:
-      0 0 0 6px rgba(34, 170, 255, 0.25),
-      0 0 22px rgba(34, 170, 255, 0.9),
-      0 0 40px rgba(34, 170, 255, 0.5);
-  }
-}
-
-/* النقطة المنجزة — نيون صلب */
-.ps__dot.is-done {
-  background: linear-gradient(135deg, #00ff88, #66ffbb);
-  border-color: transparent;
-  color: #000;
-  box-shadow:
-    0 0 10px rgba(0, 255, 136, 0.5),
-    0 0 20px rgba(0, 255, 136, 0.2);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🏷️ النصوص (Labels)
-   ═══════════════════════════════════════════════════════════ */
-.ps__label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.03em;
-  transition: color 0.3s ease, text-shadow 0.3s ease, font-weight 0.3s ease;
-  white-space: nowrap;
-}
-
-/* النص النشط — أبيض متوهج */
-.ps__label.is-active {
-  color: #ffffff;
-  font-weight: 800;
-  text-shadow: 0 0 10px rgba(34, 170, 255, 0.6);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 560px) {
-  .ps {
-    padding: 16px 12px 12px;
-    gap: 0;
-  }
-  .ps__line {
-    max-width: 50px;
-  }
-  .ps__node {
-    min-width: 58px;
-  }
-  .ps__label {
-    font-size: 0.62rem;
-  }
-  .ps__dot {
-    width: 26px;
-    height: 26px;
-    font-size: 0.68rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .ps__line {
-    max-width: 24px;
-  }
-  .ps__node {
-    min-width: 52px;
-  }
-  .ps__label {
-    font-size: 0.58rem;
-  }
-}
+.ps__dot.is-done { background: var(--gold, #c6a15b); color: #fff; }
+.ps__label { font-size: .68rem; font-weight: 700; color: var(--muted, #5b6472); }
+.ps__label.is-active { color: var(--navy, #14294b); font-weight: 800; }

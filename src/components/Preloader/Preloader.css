@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;
+  background: var(--cream, #f6f3ec);
   display: grid;
   place-items: center;
   transition: opacity .6s ease, visibility .6s ease;

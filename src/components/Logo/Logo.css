@@ -1,81 +1,9 @@
-/* ══════════════════════════════════════════════════════════
-   🎯 Logo — Cyber Edition (أسود + أزرق نيون)
-   ═══════════════════════════════════════════════════════════ */
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #22aaff;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.03);
-}
-
-.logo__mark {
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 6px rgba(34, 170, 255, 0.5));
-  transition: filter 0.3s ease;
-}
-
-.logo:hover .logo__mark {
-  filter: drop-shadow(0 0 10px rgba(34, 170, 255, 0.8));
-}
-
-/* الوشاح النيون — تأثير نبض خفيف */
-.logo__swoosh {
-  animation: swoosh-pulse 3s ease-in-out infinite;
-}
-
-@keyframes swoosh-pulse {
-  0%, 100% {
-    stroke: #22aaff;
-    filter: drop-shadow(0 0 4px rgba(34, 170, 255, 0.6));
-  }
-  50% {
-    stroke: #66ccff;
-    filter: drop-shadow(0 0 8px rgba(34, 170, 255, 0.9));
-  }
-}
-
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--navy); }
+.logo__mark { width: 42px; height: 42px; flex-shrink: 0; }
 .logo__word {
-  font-family: var(--font-display, 'Playfair Display', Georgia, serif);
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  line-height: 1;
-  color: #22aaff;
-  text-shadow: 0 0 12px rgba(34, 170, 255, 0.4);
-  transition: text-shadow 0.3s ease;
+  font-family: var(--font-display);
+  font-size: 1.55rem; font-weight: 700; letter-spacing: .5px; line-height: 1;
+  color: var(--navy);
 }
-
-.logo:hover .logo__word {
-  text-shadow: 0 0 18px rgba(34, 170, 255, 0.7);
-}
-
-/* النسخة الفاتحة — لل خلفيات داكنة */
-.logo--light {
-  color: #22aaff;
-}
-
-.logo--light .logo__word {
-  color: #22aaff;
-  text-shadow: 0 0 12px rgba(34, 170, 255, 0.5);
-}
-
-.logo--light .logo__mark {
-  filter: drop-shadow(0 0 8px rgba(34, 170, 255, 0.6));
-}
-
-/* ═══════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 640px) {
-  .logo__mark { width: 36px; height: 36px; }
-  .logo__word { font-size: 1.35rem; }
-}
+.logo--light { color: var(--cream); }
+.logo--light .logo__word { color: var(--cream); }
