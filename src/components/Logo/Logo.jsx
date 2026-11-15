@@ -1,11 +1,16 @@
-import SiteLogo from '../SiteLogo/SiteLogo';
+import logoImg from '../../assets/invitory-logo.jpeg';
 import './Logo.css';
 
-/** Brand mark compact — Navbar & Footer */
-export default function Logo({ light = true }) {
+/** 🖼️ اللوجو الرسمي — صورة مطابقة للمرفق */
+export default function Logo({ light = false, className = '' }) {
   return (
-    <a href="#home" className="logo" aria-label="Invitory — Home">
-      <SiteLogo variant={light ? 'light' : 'dark'} className="logo__inner" />
+    <a href="#home" className={`logo ${light ? 'logo--light' : ''} ${className}`} aria-label="Invitory — Home">
+      <img
+        src={logoImg}
+        alt="Invitory — Invitations • Moments • Memories"
+        className="logo__img"
+        draggable="false"
+      />
     </a>
   );
 }
