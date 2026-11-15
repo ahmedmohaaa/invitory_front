@@ -108,7 +108,8 @@ const I = {
   ext: <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" /></svg>,
   dash: <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 3v18h18" /><path d="M7 14l4-4 4 4 5-5" /></svg>,
 };
-// أضف هذه الدالة في بداية الملف
+
+/* ✅ دالة مساعدة لتحديد الدومين الصحيح (خارج المكون — صحيحة) */
 const getBaseUrl = () => {
   // 1. متغير البيئة (Production)
   if (import.meta.env.VITE_BASE_URL) {
@@ -130,22 +131,14 @@ const getBaseUrl = () => {
   return 'https://www.invitory.net';
 };
 
-// ثم في useEffect:
-useEffect(() => {
-  fetchShareData(id)
-    .then((d) => {
-      // إصلاح الرابط إذا كان localhost
-      let shareLink = d.share_link || '';
-      if (shareLink.includes('localhost') || shareLink.includes('127.0.0.1')) {
-        shareLink = shareLink.replace(
-          /^https?:\/\/[^/]+/,
-          getBaseUrl()
-        );
-      }
-      setShareLink(shareLink);
-    })
-    .catch(() => {});
-}, [id]);
+/*
+ * ❌ تم حذف useEffect الخاطئ الذي كان هنا لأنه:
+ * - كان موجوداً خارج المكون (يكسر قواعد React)
+ * - يستدعي fetchShareData و setShareLink و id وكلها غير معرّفة في هذا الملف
+ * - هذا المنطق خاص بـ SharePage.jsx وليس MyInvitations.jsx
+ * - openPublicLink داخل المكون يبني الرابط بشكل صحيح أصلاً
+ */
+
 export default function MyInvitations() {
   const [unreadMap, setUnreadMap] = useState({});
 
@@ -561,4 +554,3 @@ const openPublicLink = (inv) => {
     </div>
   );
 }
-
