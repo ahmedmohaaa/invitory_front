@@ -1,4 +1,4 @@
-/* ═══ BrandLogo — القفل الكامل ═══ */
+/* ═══ BrandLogo — الصورة الرسمية ═══ */
 .brand {
   display: flex;
   flex-direction: column;
@@ -6,10 +6,42 @@
   gap: 8px;
 }
 
-.brand .sitelogo {
-  width: min(360px, 80vw);
+.brand__img {
+  /* قصّ الهوامش وإظهار القفل فقط */
+  width: min(430px, 82vw);
+  aspect-ratio: 3.1 / 1;
+  object-fit: cover;
+  object-position: 50% 48%;
+  display: block;
+}
+
+/* شاشة التحميل (خلفية فاتحة): دمج سلس */
+.preloader .brand__img {
+  mix-blend-mode: multiply;
+}
+
+/* الخلفيات الداكنة (Login / Signup): بطاقة فاتحة فاخرة */
+.login-brand .brand__img,
+.signup-brand .brand__img {
+  mix-blend-mode: normal;
+  background: #f5f5f3;
+  padding: 20px 30px;
+  border-radius: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  width: min(400px, 78vw);
+}
+
+/* أنيميشن الدخول */
+.brand--animated .brand__img {
+  animation: brand-pop 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes brand-pop {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
 }
 
 @media (max-width: 480px) {
-  .brand .sitelogo { width: min(280px, 86vw); }
+  .brand__img { width: min(300px, 86vw); }
+  .login-brand .brand__img,
+  .signup-brand .brand__img { width: min(280px, 80vw); padding: 14px 20px; }
 }
