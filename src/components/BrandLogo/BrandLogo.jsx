@@ -1,18 +1,18 @@
-import SiteLogo from '../SiteLogo/SiteLogo';
+import logoImg from '../../assets/invitory-logo.png';
 import './BrandLogo.css';
 
 /**
- * قفل الشعار الكامل (نفس الـ API القديم: withTagline | animated | className)
- * يُستخدم في: Preloader / Login / Signup
+ * 🖼️ قفل الشعار الكامل — صورة رسمية (تحتوي التغلاين داخلها بالفعل)
+ * نفس الـ API القديم: withTagline | animated | className
  */
 export default function BrandLogo({ withTagline = false, animated = false, className = '' }) {
   return (
-    <div className={`brand ${className}`}>
-      <SiteLogo
-        variant="light"
-        withTagline={withTagline}
-        animated={animated}
-        className="brand__logo"
+    <div className={`brand ${animated ? 'brand--animated' : ''} ${className}`}>
+      <img
+        src={logoImg}
+        alt="Invitory — Invitations • Moments • Memories"
+        className="brand__img"
+        draggable="false"
       />
     </div>
   );
