@@ -49,44 +49,31 @@ const COPY = {
     notPaid: 'This page is available after payment only',
   },
 };
-// أضف هذه الدالة في بداية الملف
+
+// ✅ دالة مساعدة لتحديد الدومين الصحيح
 const getBaseUrl = () => {
-  // 1. متغير البيئة (Production)
   if (import.meta.env.VITE_BASE_URL) {
     return import.meta.env.VITE_BASE_URL;
   }
-  
-  // 2. Vercel preview
   if (window.location.hostname.includes('vercel.app')) {
     return window.location.origin;
   }
-  
-  // 3. Production domain
   if (window.location.hostname === 'www.invitory.net' || 
       window.location.hostname === 'invitory.net') {
     return 'https://www.invitory.net';
   }
-  
-  // 4. Fallback
   return 'https://www.invitory.net';
 };
 
-// ثم في useEffect:
-useEffect(() => {
-  fetchShareData(id)
-    .then((d) => {
-      // إصلاح الرابط إذا كان localhost
-      let shareLink = d.share_link || '';
-      if (shareLink.includes('localhost') || shareLink.includes('127.0.0.1')) {
-        shareLink = shareLink.replace(
-          /^https?:\/\/[^/]+/,
-          getBaseUrl()
-        );
-      }
-      setShareLink(shareLink);
-    })
-    .catch(() => {});
-}, [id]);
+// ✅ دالة لتنظيف الرابط (تحويل localhost إلى الدومين الصحيح)
+const cleanShareLink = (link) => {
+  if (!link) return '';
+  if (link.includes('localhost') || link.includes('127.0.0.1')) {
+    return link.replace(/^https?:\/\/[^/]+/, getBaseUrl());
+  }
+  return link;
+};
+
 export default function SharePage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -101,14 +88,22 @@ export default function SharePage() {
   const canvasRef = useRef(null);
   const [confetti, setConfetti] = useState([]);
 
+  // ✅ useEffect الأصلي المصحح — يجلب البيانات وينظف الرابط
   useEffect(() => {
     fetchShareData(id)
       .then((d) => {
-        setData(d);
-        // توليد QR عالي الدقة
-        QRCode.toDataURL(d.share_link, {
+        // ✅ تنظيف الرابط إذا كان localhost
+        const cleanData = {
+          ...d,
+          share_link: cleanShareLink(d.share_link),
+        };
+        
+        setData(cleanData);
+        
+        // توليد QR من الرابط النظيف
+        QRCode.toDataURL(cleanData.share_link, {
           width: 520, margin: 2, errorCorrectionLevel: 'H',
-          color: { dark: '#14294B', light: '#FFFFFF' },
+          color: { dark: '#22aaff', light: '#FFFFFF' },
         }).then(setQrDataUrl).catch(() => {});
       })
       .catch((err) => {
@@ -127,7 +122,7 @@ export default function SharePage() {
       delay: Math.random() * .6,
       dur: 2.4 + Math.random() * 1.2,
       rot: Math.random() * 360,
-      color: ['#c6a15b', '#14294b', '#e6ce9c', '#b33636', '#2f9e5f'][i % 5],
+      color: ['#22aaff', '#66ccff', '#00ff88', '#ff6688', '#ffcc00'][i % 5],
     }));
     setConfetti(pieces);
   }, [id]);
@@ -137,7 +132,6 @@ export default function SharePage() {
     try {
       await navigator.clipboard.writeText(data.share_link);
     } catch {
-      // Fallback
       const ta = document.createElement('textarea');
       ta.value = data.share_link;
       document.body.appendChild(ta); ta.select();
@@ -151,7 +145,16 @@ export default function SharePage() {
     if (!confirm(lang === 'ar' ? 'الرابط الحالي سيتوقف عن العمل. هل أنت متأكد؟' : 'Current link will stop working. Sure?')) return;
     try {
       const res = await regenerateSlug(id);
-      setData((prev) => ({ ...prev, share_link: res.share_link, share_slug: res.share_slug }));
+      setData((prev) => ({ 
+        ...prev, 
+        share_link: cleanShareLink(res.share_link), 
+        share_slug: res.share_slug 
+      }));
+      // إعادة توليد QR
+      QRCode.toDataURL(cleanShareLink(res.share_link), {
+        width: 520, margin: 2, errorCorrectionLevel: 'H',
+        color: { dark: '#22aaff', light: '#FFFFFF' },
+      }).then(setQrDataUrl).catch(() => {});
     } catch { /* تجاهل */ }
   };
 
@@ -198,7 +201,6 @@ export default function SharePage() {
       <Navbar />
       <ProgressStepper current="share" />
 
-      {/* 🎊 Confetti */}
       <div className="confetti" aria-hidden="true">
         {confetti.map((p) => (
           <span
@@ -215,7 +217,6 @@ export default function SharePage() {
       </div>
 
       <div className="container sharepage__body">
-        {/* 1. رسالة النجاح */}
         <div className="sharepage__hero">
           <span className="sharepage__ring" aria-hidden="true">
             <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="36" /><path d="M24 42l10 10 22-22" /></svg>
@@ -224,7 +225,6 @@ export default function SharePage() {
           <p>{c.sub}</p>
         </div>
 
-        {/* 2. الرابط الفريد */}
         <div className="sharepage__link">
           <div className="sharepage__link-head">
             <span className="sharepage__link-ic">🔗</span>
@@ -251,41 +251,15 @@ export default function SharePage() {
           </div>
         </div>
 
-        {/* 3. أزرار المشاركة + QR */}
         <div className="sharepage__grid">
           <div className="sharepage__social">
             <h3>🚀 {c.shareTitle}</h3>
             <div className="sharepage__social-btns">
-              <a className="ssbtn ssbtn--wa" href={data.social.whatsapp} target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                WhatsApp
-              </a>
-              <a className="ssbtn ssbtn--tg" href={data.social.telegram} target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-                  <path d="M21.5 4.5L2.5 12l6 2 2 7 3-4 5 4 3-15zm-5 3L8 14l-.5 3 2-3 6.5 3.5L16.5 7.5z" />
-                </svg>
-                Telegram
-              </a>
-              <a className="ssbtn ssbtn--fb" href={data.social.messenger} target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-                  <path d="M12 2a10 10 0 00-10 10c0 1.85.5 3.58 1.37 5.07L2 22l5.07-1.34A9.95 9.95 0 0012 22a10 10 0 0010-10A10 10 0 0012 2zm5.5 7.5l-2.9 4.6a1.5 1.5 0 01-2.2.3l-2.1-1.6a.8.8 0 00-1 0l-2.8 2.2c-.2.1-.4-.2-.2-.4l2.9-4.6a1.5 1.5 0 012.2-.3l2.1 1.6a.8.8 0 001 0l2.8-2.2c.2-.1.4.2.2.4z" />
-                </svg>
-                Messenger
-              </a>
-              <a className="ssbtn ssbtn--sms" href={data.social.sms}>
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                SMS
-              </a>
-              <a className="ssbtn ssbtn--mail" href={data.social.email}>
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" />
-                </svg>
-                Email
-              </a>
+              <a className="ssbtn ssbtn--wa" href={data.social?.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a className="ssbtn ssbtn--tg" href={data.social?.telegram} target="_blank" rel="noopener noreferrer">Telegram</a>
+              <a className="ssbtn ssbtn--fb" href={data.social?.messenger} target="_blank" rel="noopener noreferrer">Messenger</a>
+              <a className="ssbtn ssbtn--sms" href={data.social?.sms}>SMS</a>
+              <a className="ssbtn ssbtn--mail" href={data.social?.email}>Email</a>
             </div>
 
             <div className="sharepage__regen">
@@ -296,7 +270,6 @@ export default function SharePage() {
             </div>
           </div>
 
-          {/* 4. QR Code */}
           <div className="sharepage__qr">
             <h3>🖨️ {c.qr}</h3>
             <p>{c.qrHint}</p>
@@ -310,15 +283,12 @@ export default function SharePage() {
           </div>
         </div>
 
-        {/* 5. إدارة الضيوف */}
         <div className="sharepage__stats">
           <div className="sharepage__stats-copy">
             <h3>📊 {c.stats}</h3>
             <p>{c.statsHint}</p>
-<button className="sharepage__stats-btn" onClick={() => navigate(`/dashboard/${id}`)}>              {c.gotoDashboard}
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
+            <button className="sharepage__stats-btn" onClick={() => navigate(`/dashboard/${id}`)}>
+              {c.gotoDashboard}
             </button>
           </div>
           <div className="sharepage__stats-grid">
@@ -337,36 +307,19 @@ export default function SharePage() {
           </div>
         </div>
 
-        {/* 6. إجراءات إضافية */}
-        {/* 6. إجراءات إضافية */}
         <div className="sharepage__secondary">
-          {/* 👁 الوضع النهائي الحقيقي للضيوف (الرابط العام) */}
           <button className="sharepage__sec-btn" onClick={() => window.open(data.share_link, '_blank')}>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-            </svg>
             {c.preview}
           </button>
-
-          {/* معاينة المالك داخل لوحة التحكم */}
           <button className="sharepage__sec-btn" onClick={() => navigate(`/invitation/${id}`)}>
             {lang === 'ar' ? 'معاينة داخل لوحة التحكم' : 'Owner preview'}
           </button>
-
-          {/* ✏️ تعديل الدعوة (مشروط) */}
           <button
             className={`sharepage__sec-btn ${!data.edit_allowed ? 'is-locked' : ''}`}
             onClick={() => data.edit_allowed ? navigate(`/invitations/${id}/edit`) : null}
             disabled={!data.edit_allowed}
             title={!data.edit_allowed ? c.locked : ''}
           >
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              {!data.edit_allowed ? (
-                <><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 018 0v4" /></>
-              ) : (
-                <><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" /></>
-              )}
-            </svg>
             {c.edit}
             {!data.edit_allowed && <span className="sharepage__sec-lock">· {c.locked}</span>}
           </button>
@@ -375,4 +328,3 @@ export default function SharePage() {
     </div>
   );
 }
-
