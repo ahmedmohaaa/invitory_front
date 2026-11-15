@@ -1,20 +1,37 @@
-/* ═══ Logo (Navbar / Footer) ═══ */
+/* ═══ Logo — صورة رسمية ═══ */
 .logo {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
 }
 
-.logo .sitelogo {
-  width: 172px;
-  transition: filter 0.3s ease, transform 0.3s ease;
+.logo__img {
+  /* قصّ الهوامش البيضاء حول اللوجو تلقائياً */
+  height: 62px;
+  aspect-ratio: 3.1 / 1;
+  object-fit: cover;
+  object-position: 50% 48%;
+  display: block;
+  /* دمج خلفية الصورة الفاتحة مع شريط النافبار الكريمي */
+  mix-blend-mode: multiply;
+  transition: transform 0.3s ease;
 }
 
-.logo:hover .sitelogo {
-  transform: translateY(-1px);
-  filter: drop-shadow(0 0 14px rgba(34, 170, 255, 0.25));
+.logo:hover .logo__img {
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* على الخلفيات الداكنة (الفوتر): بطاقة فاتحة أنيقة حول الصورة */
+.logo--light .logo__img {
+  mix-blend-mode: normal;
+  background: #f5f5f3;
+  padding: 8px 16px;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(11, 28, 55, 0.28);
+  height: 58px;
 }
 
 @media (max-width: 640px) {
-  .logo .sitelogo { width: 140px; }
+  .logo__img { height: 50px; }
+  .logo--light .logo__img { height: 48px; padding: 6px 12px; }
 }
