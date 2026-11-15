@@ -108,7 +108,44 @@ const I = {
   ext: <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" /></svg>,
   dash: <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 3v18h18" /><path d="M7 14l4-4 4 4 5-5" /></svg>,
 };
+// أضف هذه الدالة في بداية الملف
+const getBaseUrl = () => {
+  // 1. متغير البيئة (Production)
+  if (import.meta.env.VITE_BASE_URL) {
+    return import.meta.env.VITE_BASE_URL;
+  }
+  
+  // 2. Vercel preview
+  if (window.location.hostname.includes('vercel.app')) {
+    return window.location.origin;
+  }
+  
+  // 3. Production domain
+  if (window.location.hostname === 'www.invitory.net' || 
+      window.location.hostname === 'invitory.net') {
+    return 'https://www.invitory.net';
+  }
+  
+  // 4. Fallback
+  return 'https://www.invitory.net';
+};
 
+// ثم في useEffect:
+useEffect(() => {
+  fetchShareData(id)
+    .then((d) => {
+      // إصلاح الرابط إذا كان localhost
+      let shareLink = d.share_link || '';
+      if (shareLink.includes('localhost') || shareLink.includes('127.0.0.1')) {
+        shareLink = shareLink.replace(
+          /^https?:\/\/[^/]+/,
+          getBaseUrl()
+        );
+      }
+      setShareLink(shareLink);
+    })
+    .catch(() => {});
+}, [id]);
 export default function MyInvitations() {
   const [unreadMap, setUnreadMap] = useState({});
 
@@ -214,12 +251,12 @@ const isStaff = !!(user?.is_staff || user?.is_superuser);
   const galleryShown = galleryPhotos.filter((p) => p.source === galleryTab);
 
   /* ✅ دالة مساعدة لفتح رابط الدعوة العام */
-  const openPublicLink = (inv) => {
-    if (!inv.share_slug) return;
-    const url = `${window.location.origin}/i/${inv.share_slug}`;
-    window.open(url, '_blank', 'noopener');
-  };
-
+const openPublicLink = (inv) => {
+  if (!inv.share_slug) return;
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/i/${inv.share_slug}`;
+  window.open(url, '_blank', 'noopener');
+};
   return (
     <div className="mi-page">
       <Navbar />
