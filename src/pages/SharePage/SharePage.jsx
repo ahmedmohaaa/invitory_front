@@ -49,7 +49,44 @@ const COPY = {
     notPaid: 'This page is available after payment only',
   },
 };
+// أضف هذه الدالة في بداية الملف
+const getBaseUrl = () => {
+  // 1. متغير البيئة (Production)
+  if (import.meta.env.VITE_BASE_URL) {
+    return import.meta.env.VITE_BASE_URL;
+  }
+  
+  // 2. Vercel preview
+  if (window.location.hostname.includes('vercel.app')) {
+    return window.location.origin;
+  }
+  
+  // 3. Production domain
+  if (window.location.hostname === 'www.invitory.net' || 
+      window.location.hostname === 'invitory.net') {
+    return 'https://www.invitory.net';
+  }
+  
+  // 4. Fallback
+  return 'https://www.invitory.net';
+};
 
+// ثم في useEffect:
+useEffect(() => {
+  fetchShareData(id)
+    .then((d) => {
+      // إصلاح الرابط إذا كان localhost
+      let shareLink = d.share_link || '';
+      if (shareLink.includes('localhost') || shareLink.includes('127.0.0.1')) {
+        shareLink = shareLink.replace(
+          /^https?:\/\/[^/]+/,
+          getBaseUrl()
+        );
+      }
+      setShareLink(shareLink);
+    })
+    .catch(() => {});
+}, [id]);
 export default function SharePage() {
   const { id } = useParams();
   const navigate = useNavigate();
