@@ -1,4 +1,4 @@
-import logoImg from '../../assets/invitory-logo.png';
+import logoImg from '../../assets/invitory-logo.jpeg';
 import './BrandLogo.css';
 
 /**
