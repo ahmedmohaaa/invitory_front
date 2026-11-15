@@ -1,0 +1,89 @@
+/* ═══════════════════════════════════════════════════════════
+   🎨 SiteLogo — الشعار الرسمي (3 نسخ لونية)
+   ═══════════════════════════════════════════════════════════ */
+
+.sitelogo {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.sitelogo__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* الكلمة بخط serif فخم كما في الصورة */
+.sitelogo__word {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 96px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  fill: var(--sl-ink);
+}
+
+/* السطر السفلي بتباعد أحرف واسع */
+.sitelogo__tag {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 6px;
+  fill: var(--sl-muted);
+}
+
+/* ═══ النسخة 1: dark — على الخلفيات الفاتحة (ألوان الصورة الأصلية) ═══ */
+.sitelogo--dark {
+  --sl-ink: #1f2d3a;
+  --sl-muted: #8a9299;
+  --sl-env: #233240;
+  --sl-env-front: #2c3e50;
+  --sl-gold-1: #e2c391;
+  --sl-gold-2: #c9a06a;
+}
+
+/* ═══ النسخة 2: light — على الخلفيات الداكنة ═══ */
+.sitelogo--light {
+  --sl-ink: #ffffff;
+  --sl-muted: rgba(255, 255, 255, 0.65);
+  --sl-env: #2b3b4d;
+  --sl-env-front: #3a4d61;
+  --sl-gold-1: #e2c391;
+  --sl-gold-2: #c9a06a;
+}
+
+/* ═══ النسخة 3: neon — هوية Cyber ═══ */
+.sitelogo--neon {
+  --sl-ink: #ffffff;
+  --sl-muted: rgba(34, 170, 255, 0.85);
+  --sl-env: #0a0f16;
+  --sl-env-front: #12202e;
+  --sl-gold-1: #66ccff;
+  --sl-gold-2: #22aaff;
+}
+
+.sitelogo--neon .sitelogo__word {
+  filter: drop-shadow(0 0 12px rgba(34, 170, 255, 0.35));
+}
+
+.sitelogo--neon .sl-spark {
+  filter: drop-shadow(0 0 8px rgba(34, 170, 255, 0.8));
+}
+
+/* ═══ أنيميشن (شاشة التحميل) ═══ */
+.sitelogo--animated .sitelogo__svg {
+  animation: sl-pop 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.sitelogo--animated .sl-spark {
+  animation: sl-twinkle 1.8s ease-in-out 0.5s infinite;
+  transform-origin: 121px 27px;
+}
+
+@keyframes sl-pop {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+}
+
+@keyframes sl-twinkle {
+  50% { transform: scale(1.18) rotate(10deg); opacity: 0.85; }
+}
